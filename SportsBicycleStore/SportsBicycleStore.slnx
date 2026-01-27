@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="SportsBicycleStore.Application/SportsBicycleStore.Application.csproj" Id="c0293d6a-877a-4520-9a13-b9e8b7761246" />
+  <Project Path="SportsBicycleStore.Domain/SportsBicycleStore.Domain.csproj" Id="750d4ea5-7a24-48be-8b6f-bc2389390668" />
+  <Project Path="SportsBicycleStore.Infastructure/SportsBicycleStore.Infastructure.csproj" Id="4faeab7e-3151-4f79-ac99-ec4e5db583a7" />
+  <Project Path="SportsBicycleStore.Test/SportsBicycleStore.Test.csproj" Id="6b8201af-6a09-4843-b603-01fddc00745c" />
+  <Project Path="SportsBicycleStore/SportsBicycleStore.csproj" />
+</Solution>
