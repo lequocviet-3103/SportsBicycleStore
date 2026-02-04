@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class Category
+public partial class Mbrand
 {
-    public string CategoryId { get; set; } = null!;
+    public string BrandId { get; set; } = null!;
 
-    public string CategoryName { get; set; } = null!;
+    public string BrandName { get; set; } = null!;
 
     public string? Description { get; set; }
 
@@ -17,5 +17,5 @@ public partial class Category
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public virtual ICollection<Mproduct> Mproducts { get; set; } = new List<Mproduct>();
 }

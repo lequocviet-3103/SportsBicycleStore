@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class Order
+public partial class Morder
 {
     public string OrderId { get; set; } = null!;
 
@@ -19,11 +19,11 @@ public partial class Order
 
     public string? ReceiverPhone { get; set; }
 
-    public string? DeliveryMethod { get; set; }
+    public int? DeliveryMethod { get; set; }
 
-    public string? OrderStatus { get; set; }
+    public int? OrderStatus { get; set; }
 
-    public string? PaymentStatus { get; set; }
+    public int? PaymentStatus { get; set; }
 
     public string? Note { get; set; }
 
@@ -37,11 +37,11 @@ public partial class Order
 
     public DateTime? CancelledAt { get; set; }
 
-    public virtual User Buyer { get; set; } = null!;
+    public virtual Muser Buyer { get; set; } = null!;
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<Morderdetail> Morderdetails { get; set; } = new List<Morderdetail>();
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public virtual ICollection<Mpayment> Mpayments { get; set; } = new List<Mpayment>();
 
-    public virtual User Seller { get; set; } = null!;
+    public virtual Muser Seller { get; set; } = null!;
 }

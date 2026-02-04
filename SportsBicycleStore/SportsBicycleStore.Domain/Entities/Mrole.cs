@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class Role
+public partial class Mrole
 {
     public string RoleId { get; set; } = null!;
 
@@ -14,4 +14,6 @@ public partial class Role
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public virtual ICollection<Muser> Musers { get; set; } = new List<Muser>();
 }

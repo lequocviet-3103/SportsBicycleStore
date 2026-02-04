@@ -4,11 +4,10 @@ using System.Text;
 
 namespace SportsBicycleStore.Application.Interfaces.Repositories
 {
-    public interface IUnitOfWork
-    {
         public interface IUnitOfWork : IDisposable
         {
             Task<int> SaveChangesAsync();
+            IUserRepository UserRepository { get; } 
         }
     }
-}
+

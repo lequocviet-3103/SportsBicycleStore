@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class Listing
+public partial class Mlisting
 {
     public string ListingId { get; set; } = null!;
 
@@ -15,7 +15,7 @@ public partial class Listing
 
     public string? FeaturedImage { get; set; }
 
-    public string? Status { get; set; }
+    public int? Status { get; set; }
 
     public string? ApprovedBy { get; set; }
 
@@ -27,11 +27,11 @@ public partial class Listing
 
     public DateTime? ExpiredAt { get; set; }
 
-    public virtual User? ApprovedByNavigation { get; set; }
+    public virtual Muser? ApprovedByNavigation { get; set; }
 
-    public virtual Product Product { get; set; } = null!;
+    public virtual ICollection<Mwishlist> Mwishlists { get; set; } = new List<Mwishlist>();
 
-    public virtual User Seller { get; set; } = null!;
+    public virtual Mproduct Product { get; set; } = null!;
 
-    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
+    public virtual Muser Seller { get; set; } = null!;
 }

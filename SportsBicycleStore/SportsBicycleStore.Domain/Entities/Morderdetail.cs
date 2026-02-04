@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class OrderDetail
+public partial class Morderdetail
 {
     public string OrderDetailId { get; set; } = null!;
 
@@ -21,7 +21,7 @@ public partial class OrderDetail
 
     public DateTime? CreatedAt { get; set; }
 
-    public virtual Order Order { get; set; } = null!;
+    public virtual Morder Order { get; set; } = null!;
 
-    public virtual Product Product { get; set; } = null!;
+    public virtual Mproduct Product { get; set; } = null!;
 }

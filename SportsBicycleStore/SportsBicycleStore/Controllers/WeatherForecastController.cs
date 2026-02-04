@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SportsBicycleStore.Domain.Enum;
 using SportsBicycleStore.Exceptions;
-using SportsBicycleStore.Infastructure.Data.Models;
+using SportsBicycleStore.Infastructure.Data;
 
 namespace SportsBicycleStore.Controllers
 {
@@ -22,7 +22,7 @@ namespace SportsBicycleStore.Controllers
         {
             try
             {
-                var roles = await _context.Roles.ToListAsync();
+                var roles = await _context.Mroles.ToListAsync();
 
                 if (!roles.Any())
                     return NotFound("No roles found.");
