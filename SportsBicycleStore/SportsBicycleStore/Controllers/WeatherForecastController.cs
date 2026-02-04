@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SportsBicycleStore.Domain.Enum;
+using SportsBicycleStore.Exceptions;
+using SportsBicycleStore.Infastructure.Data.Models;
 
 namespace SportsBicycleStore.Controllers
 {
@@ -6,21 +10,29 @@ namespace SportsBicycleStore.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries =
-        [
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        ];
+        private readonly AppDbContext _context;
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public WeatherForecastController(AppDbContext context)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            _context = context;
+        }
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            try
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                var roles = await _context.Roles.ToListAsync();
+
+                if (!roles.Any())
+                    return NotFound("No roles found.");
+
+                return Ok(roles);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Server error: {ex.Message}");
+            }
         }
     }
 }
