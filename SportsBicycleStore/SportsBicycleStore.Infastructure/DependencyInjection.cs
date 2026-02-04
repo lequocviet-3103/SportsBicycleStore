@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SportsBicycleStore.Application.Interfaces.Repositories;
-using SportsBicycleStore.Infastructure.Data.Models;
+using SportsBicycleStore.Application.Interfaces.Services;
+using SportsBicycleStore.Infastructure.Data;
 using SportsBicycleStore.Infastructure.Repositories;
+using SportsBicycleStore.Infastructure.Services;
 
 namespace SportsBicycleStore.Infastructure
 {
@@ -24,11 +26,13 @@ namespace SportsBicycleStore.Infastructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Repositories
-            //services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
-            
+            //services.AddScoped<IUserRepository, UserRepository>();
+
 
             // Services
             //services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
             return services;
         }

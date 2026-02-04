@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class Wishlist
+public partial class Mwishlist
 {
     public string WishlistId { get; set; } = null!;
 
@@ -17,9 +17,9 @@ public partial class Wishlist
 
     public DateTime? CreatedAt { get; set; }
 
-    public virtual Listing? Listing { get; set; }
+    public virtual Mlisting? Listing { get; set; }
 
-    public virtual Product Product { get; set; } = null!;
+    public virtual Mproduct Product { get; set; } = null!;
 
-    public virtual User User { get; set; } = null!;
+    public virtual Muser User { get; set; } = null!;
 }

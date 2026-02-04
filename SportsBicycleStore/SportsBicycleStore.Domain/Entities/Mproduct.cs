@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
 
-public partial class Product
+public partial class Mproduct
 {
     public string ProductId { get; set; } = null!;
 
@@ -17,11 +17,11 @@ public partial class Product
 
     public string? Description { get; set; }
 
-    public string? Condition { get; set; }
+    public int? Condition { get; set; }
 
     public string? FrameSize { get; set; }
 
-    public string? FrameMaterial { get; set; }
+    public int? FrameMaterial { get; set; }
 
     public string? WheelSize { get; set; }
 
@@ -45,9 +45,9 @@ public partial class Product
 
     public int? ViewCount { get; set; }
 
-    public string? Status { get; set; }
+    public int? Status { get; set; }
 
-    public string? InspectionStatus { get; set; }
+    public int? InspectionStatus { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
@@ -57,17 +57,17 @@ public partial class Product
 
     public DateTime? SoldAt { get; set; }
 
-    public virtual Brand Brand { get; set; } = null!;
+    public virtual Mbrand Brand { get; set; } = null!;
 
-    public virtual Category Category { get; set; } = null!;
+    public virtual Mcategory Category { get; set; } = null!;
 
-    public virtual ICollection<InspectionReport> InspectionReports { get; set; } = new List<InspectionReport>();
+    public virtual ICollection<Minspectionreport> Minspectionreports { get; set; } = new List<Minspectionreport>();
 
-    public virtual ICollection<Listing> Listings { get; set; } = new List<Listing>();
+    public virtual ICollection<Mlisting> Mlistings { get; set; } = new List<Mlisting>();
 
-    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<Morderdetail> Morderdetails { get; set; } = new List<Morderdetail>();
 
-    public virtual User Seller { get; set; } = null!;
+    public virtual ICollection<Mwishlist> Mwishlists { get; set; } = new List<Mwishlist>();
 
-    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
+    public virtual Muser Seller { get; set; } = null!;
 }
