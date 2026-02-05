@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SportsBicycleStore.Application.DTO;
+using SportsBicycleStore.Domain.Enum;
 
 namespace SportsBicycleStore.Infastructure.Repositories
 {
@@ -34,9 +35,9 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash), // Use BCrypt.Net.BCrypt
                 PhoneNumber = dto.PhoneNumber,
                 FullName = dto.FullName,
-                Gender = 1,
-                Status = 1,
-                RoleId = "3"
+                Gender = dto.Gender,
+                Status = (int)UserStatus.active,
+                RoleId = ((int)EnumRole.Buyer).ToString(),
             };
             await _context.Musers.AddAsync(user);
             await _context.SaveChangesAsync();

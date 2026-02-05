@@ -33,6 +33,7 @@ namespace SportsBicycleStore.Infastructure
             //services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<IMProductService, MProductService>();
 
             return services;
         }
