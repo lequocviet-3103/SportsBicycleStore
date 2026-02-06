@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SportsBicycleStore.Domain.Enum
 {
-    public enum UserStatus
+    public enum InspectCondition
     {
-        Active = 1,
-        Blocked = 2,
-        Inactive = 3
+        Good = 1,
+        Fair = 2,
+        Poor = 3,
     }
 }

@@ -4,10 +4,11 @@ using System.Text;
 
 namespace SportsBicycleStore.Domain.Enum
 {
-    public enum UserStatus
+    public enum ListingStatus
     {
-        Active = 1,
-        Blocked = 2,
-        Inactive = 3
+        Pending = 1,
+        Active = 2,
+        Rejected = 3,
+        Deleted = 4,
     }
 }

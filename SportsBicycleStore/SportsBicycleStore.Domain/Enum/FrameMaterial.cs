@@ -6,10 +6,10 @@ namespace SportsBicycleStore.Domain.Enum
 {
     public enum FrameMaterial
     {
-         carbon =1, 
-         aluminum= 2, 
-         steel =3, 
-         titanium = 4, 
-         alloy =5
+         Carbon =1, 
+         Aluminum= 2, 
+         Steel =3, 
+         Titanium = 4, 
+         Alloy =5
     }
 }

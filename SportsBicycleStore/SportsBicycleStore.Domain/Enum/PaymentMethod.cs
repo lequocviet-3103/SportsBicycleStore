@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SportsBicycleStore.Domain.Enum
 {
-    public enum UserStatus
+    public enum PaymentMethod
     {
-        Active = 1,
-        Blocked = 2,
-        Inactive = 3
+        Cash = 1,
+        Bank_Transfer = 2,
+        Credit_Card = 3,
     }
 }

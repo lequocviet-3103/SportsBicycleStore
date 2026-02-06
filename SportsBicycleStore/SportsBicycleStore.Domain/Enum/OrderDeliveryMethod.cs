@@ -4,10 +4,9 @@ using System.Text;
 
 namespace SportsBicycleStore.Domain.Enum
 {
-    public enum UserStatus
+    public enum OrderDeliveryMethod
     {
-        Active = 1,
-        Blocked = 2,
-        Inactive = 3
+        Pickup = 1,
+        Delivery = 2,
     }
 }
