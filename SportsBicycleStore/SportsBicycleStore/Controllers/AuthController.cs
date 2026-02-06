@@ -4,7 +4,7 @@ using SportsBicycleStore.Application.Interfaces.Services;
 
 namespace SportsBicycleStore.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService)
