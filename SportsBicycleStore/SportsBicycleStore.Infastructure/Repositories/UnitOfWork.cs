@@ -14,11 +14,14 @@ namespace SportsBicycleStore.Infastructure.Repositories
 
         public IMProductRepository MProductRepository { get; }
 
+        public IMInspectionReportRepository MInspectionReportRepository { get; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             UserRepository = new UserRepository(_context);
             MProductRepository = new MProductRepository(_context);
+            MInspectionReportRepository = new MInspectionReportRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()

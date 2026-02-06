@@ -9,6 +9,7 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
             Task<int> SaveChangesAsync();
             IUserRepository UserRepository { get; } 
             IMProductRepository MProductRepository { get; }
-        }
+            IMInspectionReportRepository MInspectionReportRepository { get; }
     }
+}
 

@@ -38,8 +38,9 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 Price = productDto.Price,
                 StockQuantity = productDto.StockQuantity,
                 LocationCity = productDto.LocationCity,
-                Status = 1,
+                Status = (int)ProductStatus.Available,
                 InspectionStatus = (int)InspectionStatus.Not_Inspectioned,
+                //CreatedAt = DateTime.UtcNow
             };
             await _context.Mproducts.AddAsync(bicycle);
             await _context.SaveChangesAsync();

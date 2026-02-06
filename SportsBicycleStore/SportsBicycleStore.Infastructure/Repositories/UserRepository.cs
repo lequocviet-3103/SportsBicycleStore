@@ -36,7 +36,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 PhoneNumber = dto.PhoneNumber,
                 FullName = dto.FullName,
                 Gender = dto.Gender,
-                Status = (int)UserStatus.active,
+                Status = (int)UserStatus.Active,
                 RoleId = ((int)EnumRole.Buyer).ToString(),
             };
             await _context.Musers.AddAsync(user);
