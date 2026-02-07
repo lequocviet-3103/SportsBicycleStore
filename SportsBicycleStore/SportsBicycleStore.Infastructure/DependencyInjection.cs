@@ -35,6 +35,7 @@ namespace SportsBicycleStore.Infastructure
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IMProductService, MProductService>();
             services.AddScoped<IMInspectionReportService, MInspectionReportService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
