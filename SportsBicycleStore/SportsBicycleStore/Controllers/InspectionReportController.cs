@@ -31,5 +31,12 @@ namespace SportsBicycleStore.Controllers
             }
             return Ok("Inspection report updated successfully.");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllInspectionReports()
+        {
+            var reports = await _inspectionReportService.GetAllInspectionReportsAsync();
+            return Ok(reports);
+        }
     }
 }

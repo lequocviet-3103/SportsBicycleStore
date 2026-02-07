@@ -1,12 +1,15 @@
-﻿using SportsBicycleStore.Application.Interfaces.Repositories;
-using SportsBicycleStore.Domain.Entities;
-using SportsBicycleStore.Infastructure.Data;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SportsBicycleStore.Application.DTO;
+using SportsBicycleStore.Application.Extension;
+using SportsBicycleStore.Application.Interfaces.Repositories;
+using SportsBicycleStore.Application.SearchFilter;
+using SportsBicycleStore.Domain.Entities;
+using SportsBicycleStore.Domain.Enum;
+using SportsBicycleStore.Infastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SportsBicycleStore.Application.DTO;
-using SportsBicycleStore.Domain.Enum;
 
 namespace SportsBicycleStore.Infastructure.Repositories
 {
@@ -23,6 +26,57 @@ namespace SportsBicycleStore.Infastructure.Repositories
         public async Task<Muser?> GetByUserIdAsync(string userId)
         {
             return await _context.Musers.FirstOrDefaultAsync(u => u.UserId == userId);
+        }
+
+        public async Task<PagedResult<Muser>> GetUsersAsync(UserSearchFilter filter)
+        {
+            var query =  _context.Musers.AsQueryable();
+            if (!string.IsNullOrEmpty(filter.UserId))
+            {
+                query =  query.Where(u => u.UserId.Contains(filter.UserId));
+            }
+            if (!string.IsNullOrEmpty(filter.UserName))
+            {
+                query =  query.Where(u => u.UserName.Contains(filter.UserName));
+            }
+            if (!string.IsNullOrEmpty(filter.Email))
+            {
+                query  =  query.Where(u => u.Email.Contains(filter.Email));
+            }
+            if (!string.IsNullOrEmpty(filter.PhoneNumber))
+            {
+                query = query.Where(u => u.PhoneNumber != null && u.PhoneNumber.Contains(filter.PhoneNumber));
+            }
+            if (!string.IsNullOrEmpty(filter.FullName))
+            {
+                query = query.Where(u => u.FullName != null && u.FullName.Contains(filter.FullName));
+            }
+            if (!string.IsNullOrEmpty(filter.Address))
+            {
+                query = query.Where(u => u.Address != null && u.Address.Contains(filter.Address));
+            }
+            //if (filter.DateOfBirth.HasValue)
+            //{
+            //    query = query.Where(u => u.DateOfBirth == filter.DateOfBirth);
+            //}
+            if (!string.IsNullOrEmpty(filter.RoleId))
+            {
+                query = query.Where(u => u.RoleId == filter.RoleId);
+            }
+            var totalCount = query.Count();
+
+            var items = await query
+                .Skip((filter.PageNumber - 1) * filter.PageSize)
+                .Take(filter.PageSize)
+                .ToListAsync();
+
+            return new PagedResult<Muser>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = filter.PageNumber,
+                PageSize = filter.PageSize
+            };
         }
 
         public async Task<Muser?> RegisterUserAsync(RegisterUserDto dto)

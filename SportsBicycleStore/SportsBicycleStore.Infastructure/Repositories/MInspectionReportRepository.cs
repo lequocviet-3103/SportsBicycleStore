@@ -34,6 +34,11 @@ namespace SportsBicycleStore.Infastructure.Repositories
             return inspectionReport;
         }
 
+        public async Task<List<Minspectionreport>> GetAllInspectionReportsAsync()
+        {
+            return await _context.Minspectionreports.ToListAsync();
+        }
+
         public async Task<Minspectionreport?> GetInpectionReportByIdAsync(string reportId)
         {
             var report =  await _context.Minspectionreports.FirstOrDefaultAsync(r => r.ReportId == reportId);
