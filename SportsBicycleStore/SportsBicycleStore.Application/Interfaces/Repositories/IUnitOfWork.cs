@@ -10,6 +10,8 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
             IUserRepository UserRepository { get; } 
             IMProductRepository MProductRepository { get; }
             IMInspectionReportRepository MInspectionReportRepository { get; }
+            IListingRepository MlistingRepository { get; }
+            IMOrderRepository MOrderRepository { get; }
     }
 }
 
