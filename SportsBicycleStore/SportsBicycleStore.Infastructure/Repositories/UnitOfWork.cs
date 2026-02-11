@@ -16,12 +16,18 @@ namespace SportsBicycleStore.Infastructure.Repositories
 
         public IMInspectionReportRepository MInspectionReportRepository { get; }
 
+        public IListingRepository MlistingRepository { get; }
+
+        public IMOrderRepository MOrderRepository { get; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
             UserRepository = new UserRepository(_context);
             MProductRepository = new MProductRepository(_context);
             MInspectionReportRepository = new MInspectionReportRepository(_context);
+            MlistingRepository = new MlistingRepository(_context);
+            MOrderRepository = new MOrderRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()

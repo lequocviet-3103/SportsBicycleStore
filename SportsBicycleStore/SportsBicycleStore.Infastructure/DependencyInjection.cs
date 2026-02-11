@@ -36,6 +36,8 @@ namespace SportsBicycleStore.Infastructure
             services.AddScoped<IMProductService, MProductService>();
             services.AddScoped<IMInspectionReportService, MInspectionReportService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IListingService, MlistingService>();
+            services.AddScoped<IMOrderService, MOrderService>();
 
             return services;
         }
