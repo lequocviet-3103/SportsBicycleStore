@@ -7,7 +7,7 @@ namespace SportsBicycleStore.Domain.Enum
     public enum UserStatus
     {
         Active = 1,
-        Blocked = 2,
+        Blocked = 2,//delete flag
         Inactive = 3
     }
 }

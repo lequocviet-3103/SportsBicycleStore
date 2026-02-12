@@ -30,11 +30,12 @@ namespace SportsBicycleStore.MiddleWare
             {
                 context.Response.ContentType = "application/json";
 
-                var response = new
-                {
-                    Success = false,
-                    ErrorCode = "INTERNAL_ERROR",
-                    Message = "An unexpected error occurred"
+            var response = new
+            {
+                Success = false,
+                ErrorCode = "INTERNAL_ERROR",
+                Message = exception.ToString()
+                    
                 };
 
                 switch (exception)
