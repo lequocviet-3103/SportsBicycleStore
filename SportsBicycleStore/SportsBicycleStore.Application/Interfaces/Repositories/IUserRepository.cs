@@ -2,6 +2,7 @@
 using SportsBicycleStore.Application.Extension;
 using SportsBicycleStore.Application.SearchFilter;
 using SportsBicycleStore.Domain.Entities;
+using SportsBicycleStore.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
 
         Task<Muser?> RegisterUserAsync(RegisterUserDto dto);
         Task<PagedResult<Muser>> GetUsersAsync(UserSearchFilter filter);
+        Task<Muser?> UpdateUserAsync(string userId, UpdateUserDto dto);
+        Task<bool> SoftDeleteUserAsync(string userId, UserStatus status);
 
     }
 }

@@ -97,5 +97,75 @@ namespace SportsBicycleStore.Infastructure.Repositories
             await _context.SaveChangesAsync();
             return user;
         }
+
+        
+
+        public async Task<Muser?> UpdateUserAsync(string userId, UpdateUserDto dto)
+        {
+            var user = await _context.Musers.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                return null; 
+            }
+
+            if (!string.Equals(user.Email, dto.Email, StringComparison.OrdinalIgnoreCase))
+            {
+                bool emailExists = await _context.Musers
+                    .AnyAsync(u => u.Email == dto.Email && u.UserId != userId);
+
+                if (emailExists)
+                {
+                    throw new SportsBicycleStore.Application.Exceptions.UserFriendlyException(
+                        statusCode: 400,
+                        errorCode: "EMAIL_ALREADY_EXISTS",
+                        message: "Email is already in use by another user.");
+                }
+            }
+
+            if (!string.Equals(user.UserName, dto.UserName, StringComparison.OrdinalIgnoreCase))
+            {
+                bool userNameExists = await _context.Musers
+                    .AnyAsync(u => u.UserName == dto.UserName && u.UserId != userId);
+
+                if (userNameExists)
+                {
+                    throw new SportsBicycleStore.Application.Exceptions.UserFriendlyException(
+                        statusCode: 400,
+                        errorCode: "USERNAME_ALREADY_EXISTS",
+                        message: "Username is already in use by another user.");
+                }
+            }
+
+            user.UserName = dto.UserName;
+            user.Email = dto.Email;
+            user.PhoneNumber = dto.PhoneNumber;
+            user.FullName = dto.FullName;
+            user.AvatarUrl = dto.AvatarUrl;
+            user.Address = dto.Address;
+            user.DateOfBirth = dto.DateOfBirth;
+            user.Gender = dto.Gender;
+            user.Status = dto.Status;
+            user.RoleId = dto.RoleId;
+            user.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+        public async Task<bool> SoftDeleteUserAsync(string userId, UserStatus status)
+        {
+            var user = await _context.Musers.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.Status = (int)status;
+            user.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        
     }
 }
