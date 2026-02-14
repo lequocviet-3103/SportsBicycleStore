@@ -8,8 +8,9 @@ namespace SportsBicycleStore.Domain.Enum
     {
         Pending = 1,
         Confirmed = 2,
-        Desposit_Paid = 3,
+        Paid = 3,
         Completed = 4,
         Cancelled = 5,
+        Refunded = 6
     }
 }

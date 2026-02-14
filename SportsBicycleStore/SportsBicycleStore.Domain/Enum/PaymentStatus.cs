@@ -11,5 +11,6 @@ namespace SportsBicycleStore.Domain.Enum
         Pending = 1,
         Success = 2,
         Failed = 3,
+        Refunded = 4
     }
 }

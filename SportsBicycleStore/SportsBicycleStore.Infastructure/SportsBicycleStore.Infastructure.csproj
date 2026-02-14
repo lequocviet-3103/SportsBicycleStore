@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SportsBicycleStore.Application\SportsBicycleStore.Application.csproj" />
     <ProjectReference Include="..\SportsBicycleStore.Domain\SportsBicycleStore.Domain.csproj" />
+	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

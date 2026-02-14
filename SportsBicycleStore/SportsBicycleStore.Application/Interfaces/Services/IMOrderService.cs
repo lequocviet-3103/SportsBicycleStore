@@ -9,5 +9,6 @@ namespace SportsBicycleStore.Application.Interfaces.Services
     public interface IMOrderService
     {
         Task<Morder> CreateOrder(OrderDto orderDto);
+        Task<Morder?> GetOrderByIdAsync(string orderId);
     }
 }
