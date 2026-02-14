@@ -20,5 +20,10 @@ namespace SportsBicycleStore.Infastructure.Services
         {
             return await _unitOfWork.MOrderRepository.CreateOrder(orderDto);
         }
+
+        public Task<Morder?> GetOrderByIdAsync(string orderId)
+        {
+            return _unitOfWork.MOrderRepository.GetOrderByIdAsync(orderId);
+        }
     }
 }

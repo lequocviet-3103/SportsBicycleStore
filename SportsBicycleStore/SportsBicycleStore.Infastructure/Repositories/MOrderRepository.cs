@@ -16,6 +16,25 @@ namespace SportsBicycleStore.Infastructure.Repositories
         {
         }
 
+        private static readonly Dictionary<OrderStatus, List<OrderStatus>> AllowedTransitions =
+        new()
+        {
+            { OrderStatus.Pending, new() { OrderStatus.Paid, OrderStatus.Cancelled } },
+            //{ OrderStatus.Confirmed, new() { OrderStatus.Paid, OrderStatus.Cancelled } },
+            { OrderStatus.Paid, new() { OrderStatus.Completed, OrderStatus.Refunded } },
+            { OrderStatus.Completed, new() { OrderStatus.Refunded } },
+            { OrderStatus.Cancelled, new() },
+            { OrderStatus.Refunded, new() }
+        };
+
+        private static readonly Dictionary<OrderPaymentStatus, List<OrderPaymentStatus>> AllowedOrderPaymentStatusTransitions =
+        new()
+        {
+            { OrderPaymentStatus.Unpaid, new() { OrderPaymentStatus.Paid,} },
+            { OrderPaymentStatus.Paid, new() { OrderPaymentStatus.Refunded } },
+            { OrderPaymentStatus.Refunded, new() { } },
+        };
+
         public async Task<Morder> CreateOrder(OrderDto orderDto)
         {
             try
@@ -29,7 +48,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     ShippingAddress = orderDto.ShippingAddress,
                     ReceiverName = orderDto.ReceiverName,
                     ReceiverPhone = orderDto.ReceiverPhone,
-                    DeliveryMethod = (int)OrderDeliveryMethod.Pickup,
+                    DeliveryMethod = (int)OrderDeliveryMethod.Delivery,
                     OrderStatus = (int)OrderStatus.Pending,
                     PaymentStatus = (int)PaymentStatus.Pending,
                     Note = orderDto.Note,
@@ -68,18 +87,67 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 await _context.Morderdetails.AddRangeAsync(orderDetail);
                 await _context.SaveChangesAsync();
 
-                // Return a fresh instance without navigation properties loaded to avoid serialization issues
-                return await _context.Morders
-                .Include(o => o.Morderdetails)
-                .ThenInclude(d => d.Product)
-                .Include(o => o.Buyer)
-                .Include(o => o.Seller)
-                .FirstAsync(o => o.OrderId == order.OrderId);
+                
+                return order;
             } 
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<Morder?> GetOrderByIdAsync(string orderId)
+        {
+            var order = await _context.Morders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            return order;
+        }
+
+        public Morder UpdateOrderStatus(string orderId, OrderStatus newStatus)
+        {
+            var order =  _context.Morders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+                throw new Exception("Order not found");
+
+            // Convert int to OrderStatus enum
+            var currentStatus = (OrderStatus)order.OrderStatus;
+
+            if (currentStatus == newStatus)
+                return order;
+
+            if (!AllowedTransitions[currentStatus].Contains(newStatus))
+            {
+                throw new InvalidOperationException(
+                    $"Cannot change status from {currentStatus} to {newStatus}");
+            }
+
+            order.OrderStatus = (int)newStatus;
+            order.UpdatedAt = DateTime.Now;
+            _context.SaveChanges();
+            return order;
+        }
+
+        public Morder UpdateOrderPaymentStatus(string orderId, OrderPaymentStatus newStatus)
+        {
+            var order = _context.Morders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+                throw new Exception("Order not found");
+
+            // Convert int to OrderStatus enum
+            var currentStatus = (OrderPaymentStatus)order.PaymentStatus;
+
+            if (currentStatus == newStatus)
+                return order;
+
+            if (!AllowedOrderPaymentStatusTransitions[currentStatus].Contains(newStatus))
+            {
+                throw new InvalidOperationException(
+                    $"Cannot change status from {currentStatus} to {newStatus}");
+            }
+
+            order.PaymentStatus = (int)newStatus;
+            order.UpdatedAt = DateTime.Now;
+            _context.SaveChanges();
+            return order;
         }
     }
 }
