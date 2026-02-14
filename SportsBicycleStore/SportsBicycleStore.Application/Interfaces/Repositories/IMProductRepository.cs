@@ -9,5 +9,6 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
     public interface IMProductRepository
     {
         public Task<Mproduct> CreateBicycle(ProductDto productDto);
+        Task<Mproduct?> UpdateBicycleAsync(string productId, UpdateProductDto dto);
     }
 }

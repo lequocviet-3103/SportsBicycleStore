@@ -20,5 +20,18 @@ namespace SportsBicycleStore.Controllers
             var result = await _mProductService.CreateBicycle(productDto);
             return Ok(result);
         }
+
+        [HttpPut("{productId}/UpdateProduct")]
+        public async Task<IActionResult> UpdateProduct(string productId, [FromBody] UpdateProductDto dto)
+        {
+            var updatedProduct = await _mProductService.UpdateBicycleAsync(productId, dto);
+
+            if (updatedProduct == null)
+            {
+                return NotFound("Product not found.");
+            }
+
+            return Ok(updatedProduct);
+        }
     }
 }
