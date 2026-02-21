@@ -44,4 +44,6 @@ public partial class Morder
     public virtual ICollection<Mpayment> Mpayments { get; set; } = new List<Mpayment>();
 
     public virtual Muser Seller { get; set; } = null!;
+
+    public virtual ICollection<Mdispute> Mdisputes { get; set; } = new List<Mdispute>();
 }

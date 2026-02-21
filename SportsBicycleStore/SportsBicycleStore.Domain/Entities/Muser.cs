@@ -47,5 +47,13 @@ public partial class Muser
 
     public virtual ICollection<Mwishlist> Mwishlists { get; set; } = new List<Mwishlist>();
 
+    public virtual ICollection<Mdispute> MdisputeBuyers { get; set; } = new List<Mdispute>();
+
+    public virtual ICollection<Mdispute> MdisputeSellers { get; set; } = new List<Mdispute>();
+
+    public virtual ICollection<Mdispute> MdisputeResolvers { get; set; } = new List<Mdispute>();
+
+    public virtual ICollection<MdisputeEvidence> MdisputeEvidences { get; set; } = new List<MdisputeEvidence>();
+
     public virtual Mrole Role { get; set; } = null!;
 }

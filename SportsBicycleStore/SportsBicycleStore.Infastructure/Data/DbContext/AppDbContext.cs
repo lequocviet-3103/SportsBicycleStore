@@ -34,6 +34,10 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Mwishlist> Mwishlists { get; set; }
 
+    public virtual DbSet<Mdispute> Mdisputes { get; set; }
+
+    public virtual DbSet<MdisputeEvidence> MdisputeEvidences { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Mbrand>(entity =>
@@ -564,6 +568,106 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_wishlist_user");
+        });
+
+        modelBuilder.Entity<Mdispute>(entity =>
+        {
+            entity.HasKey(e => e.DisputeId).HasName("mdispute_pkey");
+
+            entity.ToTable("mdispute");
+
+            entity.Property(e => e.DisputeId)
+                .HasMaxLength(40)
+                .HasColumnName("dispute_id");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(40)
+                .HasColumnName("order_id");
+            entity.Property(e => e.BuyerId)
+                .HasMaxLength(40)
+                .HasColumnName("buyer_id");
+            entity.Property(e => e.SellerId)
+                .HasMaxLength(40)
+                .HasColumnName("seller_id");
+            entity.Property(e => e.Reason).HasColumnName("reason");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.EvidenceUrls).HasColumnName("evidence_urls");
+            entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.Resolution).HasColumnName("resolution");
+            entity.Property(e => e.RefundAmount)
+                .HasPrecision(18, 2)
+                .HasColumnName("refund_amount");
+            entity.Property(e => e.ResolvedBy)
+                .HasMaxLength(40)
+                .HasColumnName("resolved_by");
+            entity.Property(e => e.AdminNote).HasColumnName("admin_note");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.ResolvedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("resolved_at");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.Mdisputes)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_dispute_order");
+
+            entity.HasOne(d => d.Buyer).WithMany(p => p.MdisputeBuyers)
+                .HasForeignKey(d => d.BuyerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_dispute_buyer");
+
+            entity.HasOne(d => d.Seller).WithMany(p => p.MdisputeSellers)
+                .HasForeignKey(d => d.SellerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_dispute_seller");
+
+            entity.HasOne(d => d.ResolvedByNavigation).WithMany(p => p.MdisputeResolvers)
+                .HasForeignKey(d => d.ResolvedBy)
+                .HasConstraintName("fk_dispute_resolver");
+        });
+
+        modelBuilder.Entity<MdisputeEvidence>(entity =>
+        {
+            entity.HasKey(e => e.EvidenceId).HasName("mdispute_evidence_pkey");
+
+            entity.ToTable("mdispute_evidence");
+
+            entity.Property(e => e.EvidenceId)
+                .HasMaxLength(40)
+                .HasColumnName("evidence_id");
+            entity.Property(e => e.DisputeId)
+                .HasMaxLength(40)
+                .HasColumnName("dispute_id");
+            entity.Property(e => e.SubmittedBy)
+                .HasMaxLength(40)
+                .HasColumnName("submitted_by");
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(500)
+                .HasColumnName("image_url");
+            entity.Property(e => e.VideoUrl)
+                .HasMaxLength(500)
+                .HasColumnName("video_url");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+
+            entity.HasOne(d => d.Dispute).WithMany(p => p.MdisputeEvidences)
+                .HasForeignKey(d => d.DisputeId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("fk_evidence_dispute");
+
+            entity.HasOne(d => d.Submitter).WithMany(p => p.MdisputeEvidences)
+                .HasForeignKey(d => d.SubmittedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_evidence_submitter");
         });
 
         OnModelCreatingPartial(modelBuilder);
