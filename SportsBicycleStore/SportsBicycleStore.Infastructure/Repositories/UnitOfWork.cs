@@ -22,6 +22,8 @@ namespace SportsBicycleStore.Infastructure.Repositories
 
         public IPaymentRepository PaymentRepository { get; }
 
+        public IMessageRepository MessageRepository { get; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -31,6 +33,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
             MlistingRepository = new MlistingRepository(_context);
             MOrderRepository = new MOrderRepository(_context);
             PaymentRepository = new PaymentRepository(_context);
+            MessageRepository = new MessageRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()

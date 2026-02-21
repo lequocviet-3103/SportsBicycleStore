@@ -34,6 +34,8 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Mwishlist> Mwishlists { get; set; }
 
+    public virtual DbSet<Mmessage> Mmessages { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Mbrand>(entity =>
@@ -564,6 +566,46 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_wishlist_user");
+        });
+
+        modelBuilder.Entity<Mmessage>(entity =>
+        {
+            entity.HasKey(e => e.MessageId).HasName("mmessage_pkey");
+
+            entity.ToTable("mmessage");
+
+            entity.Property(e => e.MessageId)
+                .HasMaxLength(40)
+                .HasColumnName("message_id");
+            entity.Property(e => e.SenderId)
+                .HasMaxLength(40)
+                .HasColumnName("sender_id");
+            entity.Property(e => e.ReceiverId)
+                .HasMaxLength(40)
+                .HasColumnName("receiver_id");
+            entity.Property(e => e.Content)
+                .HasColumnName("content");
+            entity.Property(e => e.IsRead)
+                .HasDefaultValue(false)
+                .HasColumnName("is_read");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.MmessageSenders)
+                .HasForeignKey(d => d.SenderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_message_sender");
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.MmessageReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_message_receiver");
         });
 
         OnModelCreatingPartial(modelBuilder);
