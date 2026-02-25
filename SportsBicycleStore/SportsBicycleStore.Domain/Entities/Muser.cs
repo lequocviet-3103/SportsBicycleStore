@@ -55,5 +55,9 @@ public partial class Muser
 
     public virtual ICollection<Mwishlist> Mwishlists { get; set; } = new List<Mwishlist>();
 
+    public virtual ICollection<Mmessage> MmessageSenders { get; set; } = new List<Mmessage>();
+
+    public virtual ICollection<Mmessage> MmessageReceivers { get; set; } = new List<Mmessage>();
+
     public virtual Mrole Role { get; set; } = null!;
 }
