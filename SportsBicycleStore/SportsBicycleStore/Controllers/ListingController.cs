@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Services;
@@ -14,6 +15,8 @@ namespace SportsBicycleStore.Controllers
         {
             _listingService = listingService;
         }
+
+        [Authorize(Roles = "1,2")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateListing(ListingDto listingDto)
         {
@@ -21,6 +24,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "1,2")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(string id)
         {
@@ -32,6 +36,8 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
+
+        [Authorize(Roles = "1")]
         [HttpPost("approve/{listingId}")]
         public async Task<IActionResult> ApproveListing(ApproveListingDto approveListingDto, string listingId)
         {
@@ -41,6 +47,14 @@ namespace SportsBicycleStore.Controllers
                 return NotFound();
             }
             return Ok(result);
+        }
+
+            [Authorize(Roles = "1, 2, 3, 4")]
+            [HttpGet("get-all-listing")]
+            public async Task<IActionResult> GetAllListing()
+            {
+                var result = await _listingService.GetAllListings();
+                return Ok(result);
         }
     }
 }

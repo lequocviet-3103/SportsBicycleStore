@@ -1,9 +1,11 @@
+
 ﻿using Microsoft.EntityFrameworkCore;
 using SportsBicycleStore.Application.Interfaces.Repositories;
 using SportsBicycleStore.Infastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SportsBicycleStore.Infastructure.Repositories
 {
@@ -23,6 +25,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
 
         public IPaymentRepository PaymentRepository { get; }
 
+        public IDisputeRepository DisputeRepository { get; }
+
+        public IMessageRepository MessageRepository { get; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -34,6 +40,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
             PaymentRepository = new PaymentRepository(_context);
             MCategoryRepository = new MCategoryRepository(_context);
             MBrandRepository = new MBrandRepository(_context);
+            DisputeRepository = new DisputeRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()

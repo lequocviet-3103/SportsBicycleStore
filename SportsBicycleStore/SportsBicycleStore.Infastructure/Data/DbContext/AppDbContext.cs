@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SportsBicycleStore.Domain.Entities;
@@ -7,6 +7,10 @@ namespace SportsBicycleStore.Infastructure.Data;
 
 public partial class AppDbContext : DbContext
 {
+    public AppDbContext()
+    {
+    }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -16,9 +20,15 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Mcategory> Mcategories { get; set; }
 
+    public virtual DbSet<Mdispute> Mdisputes { get; set; }
+
+    public virtual DbSet<MdisputeEvidence> MdisputeEvidences { get; set; }
+
     public virtual DbSet<Minspectionreport> Minspectionreports { get; set; }
 
     public virtual DbSet<Mlisting> Mlistings { get; set; }
+
+    public virtual DbSet<Mmessage> Mmessages { get; set; }
 
     public virtual DbSet<Morder> Morders { get; set; }
 
@@ -33,6 +43,10 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<Muser> Musers { get; set; }
 
     public virtual DbSet<Mwishlist> Mwishlists { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseNpgsql("Host=dpg-d619rrsoud1c739vkk20-a.singapore-postgres.render.com;Database=sportbicyclestore_db;Username=admin;Password=9JIgpwTbCTtygGd4HydNmDldqDcyDeWc");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,7 +73,6 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
             entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updated_at");
         });
@@ -87,9 +100,109 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
             entity.Property(e => e.UpdatedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<Mdispute>(entity =>
+        {
+            entity.HasKey(e => e.DisputeId).HasName("mdispute_pkey");
+
+            entity.ToTable("mdispute");
+
+            entity.Property(e => e.DisputeId)
+                .HasMaxLength(40)
+                .HasColumnName("dispute_id");
+            entity.Property(e => e.AdminNote).HasColumnName("admin_note");
+            entity.Property(e => e.BuyerId)
+                .HasMaxLength(40)
+                .HasColumnName("buyer_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.EvidenceUrls).HasColumnName("evidence_urls");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(40)
+                .HasColumnName("order_id");
+            entity.Property(e => e.Reason).HasColumnName("reason");
+            entity.Property(e => e.RefundAmount)
+                .HasPrecision(18, 2)
+                .HasColumnName("refund_amount");
+            entity.Property(e => e.Resolution).HasColumnName("resolution");
+            entity.Property(e => e.ResolvedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("resolved_at");
+            entity.Property(e => e.ResolvedBy)
+                .HasMaxLength(40)
+                .HasColumnName("resolved_by");
+            entity.Property(e => e.SellerId)
+                .HasMaxLength(40)
+                .HasColumnName("seller_id");
+            entity.Property(e => e.Status)
+                .HasDefaultValue(1)
+                .HasColumnName("status");
+            entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Buyer).WithMany(p => p.MdisputeBuyers)
+                .HasForeignKey(d => d.BuyerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_dispute_buyer");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.Mdisputes)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_dispute_order");
+
+            entity.HasOne(d => d.ResolvedByNavigation).WithMany(p => p.MdisputeResolvedByNavigations)
+                .HasForeignKey(d => d.ResolvedBy)
+                .HasConstraintName("fk_dispute_resolver");
+
+            entity.HasOne(d => d.Seller).WithMany(p => p.MdisputeSellers)
+                .HasForeignKey(d => d.SellerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_dispute_seller");
+        });
+
+        modelBuilder.Entity<MdisputeEvidence>(entity =>
+        {
+            entity.HasKey(e => e.EvidenceId).HasName("mdispute_evidence_pkey");
+
+            entity.ToTable("mdispute_evidence");
+
+            entity.Property(e => e.EvidenceId)
+                .HasMaxLength(40)
+                .HasColumnName("evidence_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.DisputeId)
+                .HasMaxLength(40)
+                .HasColumnName("dispute_id");
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(500)
+                .HasColumnName("image_url");
+            entity.Property(e => e.SubmittedBy)
+                .HasMaxLength(40)
+                .HasColumnName("submitted_by");
+            entity.Property(e => e.VideoUrl)
+                .HasMaxLength(500)
+                .HasColumnName("video_url");
+
+            entity.HasOne(d => d.Dispute).WithMany(p => p.MdisputeEvidences)
+                .HasForeignKey(d => d.DisputeId)
+                .HasConstraintName("fk_evidence_dispute");
+
+            entity.HasOne(d => d.SubmittedByNavigation).WithMany(p => p.MdisputeEvidences)
+                .HasForeignKey(d => d.SubmittedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_evidence_submitter");
         });
 
         modelBuilder.Entity<Minspectionreport>(entity =>
@@ -200,6 +313,49 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.SellerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_listing_seller");
+        });
+
+        modelBuilder.Entity<Mmessage>(entity =>
+        {
+            entity.HasKey(e => e.MessageId).HasName("mmessage_pkey");
+
+            entity.ToTable("mmessage");
+
+            entity.HasIndex(e => e.CreatedAt, "idx_message_created_at");
+            entity.HasIndex(e => e.ReceiverId, "idx_message_receiver");
+            entity.HasIndex(e => e.SenderId, "idx_message_sender");
+
+            entity.Property(e => e.MessageId)
+                .HasMaxLength(40)
+                .HasColumnName("message_id");
+            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at");
+            entity.Property(e => e.IsRead)
+                .HasDefaultValue(false)
+                .HasColumnName("is_read");
+            entity.Property(e => e.ReceiverId)
+                .HasMaxLength(40)
+                .HasColumnName("receiver_id");
+            entity.Property(e => e.SenderId)
+                .HasMaxLength(40)
+                .HasColumnName("sender_id");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.MmessageSenders)
+                .HasForeignKey(d => d.SenderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_message_sender");
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.MmessageReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_message_receiver");
         });
 
         modelBuilder.Entity<Morder>(entity =>
@@ -377,6 +533,7 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
+            entity.Property(e => e.DeleteFlag).HasColumnName("delete_flag");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.FrameMaterial).HasColumnName("frame_material");
             entity.Property(e => e.FrameSize)
@@ -409,7 +566,6 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValue(1)
                 .HasColumnName("stock_quantity");
             entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updated_at");
             entity.Property(e => e.UsageHistory)
@@ -511,7 +667,6 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("role_id");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updated_at");
             entity.Property(e => e.UserName)
@@ -539,6 +694,7 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("created_at");
+            entity.Property(e => e.DeleteFlag).HasColumnName("delete_flag");
             entity.Property(e => e.ListingId)
                 .HasMaxLength(40)
                 .HasColumnName("listing_id");
