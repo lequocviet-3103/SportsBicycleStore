@@ -17,7 +17,7 @@ namespace SportsBicycleStore.Controllers
         }
 
         [Authorize(Roles = "1,4")]
-        [HttpPost]
+        [HttpPost("create-inspector-report")]
         public async Task<IActionResult> CreateInspectionReport([FromBody] InspectionReportDto inspectionReportDto)
         {
             var result = await _inspectionReportService.CreateInspectionReport(inspectionReportDto);
@@ -39,7 +39,7 @@ namespace SportsBicycleStore.Controllers
 
 
         [Authorize(Roles = "1, 2, 4")]
-        [HttpGet]
+        [HttpGet("get-all-inspector-report")]
         public async Task<IActionResult> GetAllInspectionReports()
         {
             var reports = await _inspectionReportService.GetAllInspectionReportsAsync();
