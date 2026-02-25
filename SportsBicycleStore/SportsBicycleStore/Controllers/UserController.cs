@@ -22,7 +22,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(users);
         }
 
-        [HttpPut("{userId}")]
+        [HttpPut("{userId}/adminUpdateUser")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto dto)
         {
             var updatedUser = await _userService.UpdateUserAsync(userId, dto);
