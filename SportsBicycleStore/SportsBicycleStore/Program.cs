@@ -7,6 +7,7 @@ using SportsBicycleStore.Infastructure.Data;
 using SportsBicycleStore.MiddleWare;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using SportsBicycleStore.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,11 +57,15 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
     {
         policy
-            .AllowAnyOrigin()
+            .SetIsOriginAllowed(_ => true)
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
+
+// SignalR
+builder.Services.AddSignalR();
 
 // DI
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -109,9 +114,12 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();

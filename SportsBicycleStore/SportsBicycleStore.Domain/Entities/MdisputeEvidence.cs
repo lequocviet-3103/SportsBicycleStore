@@ -21,5 +21,5 @@ public partial class MdisputeEvidence
 
     public virtual Mdispute Dispute { get; set; } = null!;
 
-    public virtual Muser Submitter { get; set; } = null!;
+    public virtual Muser SubmittedByNavigation { get; set; } = null!;
 }

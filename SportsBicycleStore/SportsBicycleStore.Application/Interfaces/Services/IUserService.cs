@@ -13,5 +13,7 @@ namespace SportsBicycleStore.Application.Interfaces.Services
          Task<PagedResult<Muser>> GetUsersAsync(UserSearchFilter filter);
         Task<Muser?> UpdateUserAsync(string userId, UpdateUserDto dto);
         Task<bool> SoftDeleteUserAsync(string userId, SoftDeleteUserDto dto);
+        Task<Muser?> UpdateInfoUserDto(string userId, UpdateInfoUserDto updateInfoUserDto);
+        Task<bool> ForgetPasswordDto(string email, ForgetPasswordDto forgetPasswordDto);
     }
 }

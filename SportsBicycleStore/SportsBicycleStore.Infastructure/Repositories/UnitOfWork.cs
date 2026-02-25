@@ -1,8 +1,9 @@
-﻿using SportsBicycleStore.Application.Interfaces.Repositories;
+using SportsBicycleStore.Application.Interfaces.Repositories;
 using SportsBicycleStore.Infastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SportsBicycleStore.Infastructure.Repositories
 {
@@ -24,6 +25,8 @@ namespace SportsBicycleStore.Infastructure.Repositories
 
         public IDisputeRepository DisputeRepository { get; }
 
+        public IMessageRepository MessageRepository { get; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -34,6 +37,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
             MOrderRepository = new MOrderRepository(_context);
             PaymentRepository = new PaymentRepository(_context);
             DisputeRepository = new DisputeRepository(_context);
+            MessageRepository = new MessageRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()

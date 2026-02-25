@@ -17,6 +17,8 @@ public partial class Mwishlist
 
     public DateTime? CreatedAt { get; set; }
 
+    public int? DeleteFlag { get; set; }
+
     public virtual Mlisting? Listing { get; set; }
 
     public virtual Mproduct Product { get; set; } = null!;

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SportsBicycleStore.Application.Interfaces.Repositories;
@@ -40,6 +40,7 @@ namespace SportsBicycleStore.Infastructure
             services.AddScoped<IMOrderService, MOrderService>();
             services.AddScoped<IVnPayService, VnPayService>();
             services.AddScoped<IDisputeService, DisputeService>();
+            services.AddScoped<IMessageService, MessageService>();
 
             return services;
         }
