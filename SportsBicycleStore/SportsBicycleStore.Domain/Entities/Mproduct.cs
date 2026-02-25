@@ -57,6 +57,8 @@ public partial class Mproduct
 
     public DateTime? SoldAt { get; set; }
 
+    public int? DeleteFlag { get; set; }
+
     public virtual Mbrand Brand { get; set; } = null!;
 
     public virtual Mcategory Category { get; set; } = null!;
