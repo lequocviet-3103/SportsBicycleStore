@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Services;
@@ -14,6 +15,8 @@ namespace SportsBicycleStore.Controllers
         {
             _orderService = orderService;
         }
+
+        [Authorize(Roles = "1,3")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder(OrderDto orderDto)
         {

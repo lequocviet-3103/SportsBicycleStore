@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Services;
@@ -15,6 +16,8 @@ namespace SportsBicycleStore.Controllers
         {
             _userService = userService;
         }
+
+        [Authorize(Roles = "1,2")]
         [HttpGet("get-user-by-search-filter")]
         public async Task<IActionResult> GetUsers([FromQuery] UserSearchFilter filter)
         {
@@ -22,6 +25,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "1,2, 3")]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto dto)
         {
@@ -35,6 +39,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(updatedUser);
         }
 
+        [Authorize(Roles = "1,2")]
         [HttpPatch("{userId}/UpdateStatus")]
         public async Task<IActionResult> SoftDeleteUser(string userId, [FromBody] SoftDeleteUserDto dto)
         {
@@ -46,6 +51,30 @@ namespace SportsBicycleStore.Controllers
             }
 
             return NoContent();
+        }
+
+        [Authorize(Roles = "1,2,3,4")]
+        [HttpPut("{userId}/update-info")]
+        public async Task<IActionResult> UpdateInfoUser(string userId, [FromBody] UpdateInfoUserDto updateInfoUserDto)
+        {
+            var updatedUser = await _userService.UpdateInfoUserDto(userId, updateInfoUserDto);
+            if (updatedUser == null)
+            {
+                return NotFound("User not found.");
+            }
+            return Ok(updatedUser);
+        }
+
+        [Authorize(Roles = "1,2,3,4")]
+        [HttpPost("forget-password/{email}")]
+        public async Task<IActionResult> ForgetPassword(string email, [FromBody] ForgetPasswordDto forgetPasswordDto)
+        {
+            var result = await _userService.ForgetPasswordDto(email, forgetPasswordDto);
+            if (!result)
+            {
+                return NotFound("User not found.");
+            }
+            return Ok("Password reset successful. Please check your email for further instructions.");
         }
     }
 }

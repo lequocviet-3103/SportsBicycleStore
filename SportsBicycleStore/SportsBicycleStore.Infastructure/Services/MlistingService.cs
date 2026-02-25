@@ -28,6 +28,11 @@ namespace SportsBicycleStore.Infastructure.Services
             return await _unitOfWork.MlistingRepository.CreateListing(listingDto);
         }
 
+        public async Task<List<GetAllListing>> GetAllListings()
+        {
+            return await _unitOfWork.MlistingRepository.GetAllListings();
+        }
+
         public async Task<Mlisting?> GetByIdAsync(string id)
         {
             return await _unitOfWork.MlistingRepository.GetByIdAsync(id);

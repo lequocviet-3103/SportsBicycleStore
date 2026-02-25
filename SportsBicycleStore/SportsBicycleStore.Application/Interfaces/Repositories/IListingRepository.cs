@@ -11,5 +11,6 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
         Task<Mlisting> CreateListing(ListingDto listingDto);
         Task<Mlisting?> GetByIdAsync(string id);
         Task<bool> ApproveListing(ApproveListingDto approveListingDto, string listingId);
+        Task<List<GetAllListing>> GetAllListings();
     }
 }

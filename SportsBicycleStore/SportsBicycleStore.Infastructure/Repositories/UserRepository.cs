@@ -166,6 +166,37 @@ namespace SportsBicycleStore.Infastructure.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-        
+
+        public async Task<Muser?> UpdateInfoUserDto(string userId, UpdateInfoUserDto updateInfoUserDto)
+        {
+            var user = await _context.Musers.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user == null)
+            {
+                return null;
+            }
+            user.PhoneNumber = updateInfoUserDto.PhoneNumber;
+            user.FullName = updateInfoUserDto.FullName;
+            user.AvatarUrl = updateInfoUserDto.AvatarUrl;
+            user.Address = updateInfoUserDto.Address;
+            user.DateOfBirth = updateInfoUserDto.DateOfBirth;
+            user.Gender = updateInfoUserDto.Gender;
+            user.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return user;
+
+        }
+
+
+        public async Task<Muser?> ForgetPasswordDto(string email, ForgetPasswordDto forgetPasswordDto)
+        {
+           var user = await _context.Musers.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                return null;
+            }
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(forgetPasswordDto.PasswordHash);
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }
