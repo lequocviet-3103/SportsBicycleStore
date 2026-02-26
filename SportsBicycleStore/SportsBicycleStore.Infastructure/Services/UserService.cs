@@ -43,18 +43,5 @@ namespace SportsBicycleStore.Infastructure.Services
             var statusEnum = (UserStatus)dto.Status;
             return await _unitOfWork.UserRepository.SoftDeleteUserAsync(userId, statusEnum);
         }
-
-        public async Task<Muser?> UpdateInfoUserDto(string userId, UpdateInfoUserDto updateInfoUserDto)
-        {
-            var user = await _unitOfWork.UserRepository.UpdateInfoUserDto(userId, updateInfoUserDto);
-            return user;
-        }
-
-        public async Task<bool> ForgetPasswordDto(string email, ForgetPasswordDto forgetPasswordDto)
-        {
-            var user = await _unitOfWork.UserRepository.ForgetPasswordDto(email, forgetPasswordDto);
-            if(user == null) return false;
-            return true;
-        }
     }
 }

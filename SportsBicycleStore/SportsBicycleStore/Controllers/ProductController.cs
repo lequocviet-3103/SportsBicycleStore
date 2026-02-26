@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Services;
@@ -17,8 +16,6 @@ namespace SportsBicycleStore.Controllers
         {
             _mProductService = mProductService;
         }
-
-        [Authorize(Roles = "1,2")]
         [HttpPost("create-bicycle")]
         public async Task<IActionResult> CreateBicycle([FromBody] ProductDto productDto)
         {
@@ -26,8 +23,6 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
-
-        [Authorize(Roles = "1,2")]
         [HttpPut("{productId}/UpdateProduct")]
         public async Task<IActionResult> UpdateProduct(string productId, [FromBody] UpdateProductDto dto)
         {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Services;
@@ -15,16 +14,12 @@ namespace SportsBicycleStore.Controllers
         {
             _inspectionReportService = inspectionReportService;
         }
-
-        [Authorize(Roles = "1,4")]
-        [HttpPost("create-inspector-report")]
+        [HttpPost]
         public async Task<IActionResult> CreateInspectionReport([FromBody] InspectionReportDto inspectionReportDto)
         {
             var result = await _inspectionReportService.CreateInspectionReport(inspectionReportDto);
             return Ok(result);
         }
-
-        [Authorize(Roles = "1,4")]
         [HttpPost]
         [Route("update/{reportId}")]
         public async Task<IActionResult> UpdateInspectionReport([FromBody] UpdateInspectionReportDto updateInspectionReportDto, [FromRoute] string reportId)
@@ -37,9 +32,7 @@ namespace SportsBicycleStore.Controllers
             return Ok("Inspection report updated successfully.");
         }
 
-
-        [Authorize(Roles = "1, 2, 4")]
-        [HttpGet("get-all-inspector-report")]
+        [HttpGet]
         public async Task<IActionResult> GetAllInspectionReports()
         {
             var reports = await _inspectionReportService.GetAllInspectionReportsAsync();

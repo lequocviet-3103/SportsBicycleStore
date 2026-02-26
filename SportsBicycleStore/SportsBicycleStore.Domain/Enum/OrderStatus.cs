@@ -11,7 +11,6 @@ namespace SportsBicycleStore.Domain.Enum
         Paid = 3,
         Completed = 4,
         Cancelled = 5,
-        Refunded = 6,
-        Disputed = 7
+        Refunded = 6
     }
 }

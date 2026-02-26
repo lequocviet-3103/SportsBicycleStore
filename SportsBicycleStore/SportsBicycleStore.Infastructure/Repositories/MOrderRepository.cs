@@ -21,11 +21,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
         {
             { OrderStatus.Pending, new() { OrderStatus.Paid, OrderStatus.Cancelled } },
             //{ OrderStatus.Confirmed, new() { OrderStatus.Paid, OrderStatus.Cancelled } },
-            { OrderStatus.Paid, new() { OrderStatus.Completed, OrderStatus.Refunded, OrderStatus.Disputed } },
-            { OrderStatus.Completed, new() { OrderStatus.Refunded, OrderStatus.Disputed } },
+            { OrderStatus.Paid, new() { OrderStatus.Completed, OrderStatus.Refunded } },
+            { OrderStatus.Completed, new() { OrderStatus.Refunded } },
             { OrderStatus.Cancelled, new() },
-            { OrderStatus.Refunded, new() },
-            { OrderStatus.Disputed, new() { OrderStatus.Completed, OrderStatus.Refunded } }
+            { OrderStatus.Refunded, new() }
         };
 
         private static readonly Dictionary<OrderPaymentStatus, List<OrderPaymentStatus>> AllowedOrderPaymentStatusTransitions =
