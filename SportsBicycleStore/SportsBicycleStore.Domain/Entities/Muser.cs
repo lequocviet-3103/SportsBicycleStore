@@ -33,6 +33,14 @@ public partial class Muser
 
     public string RoleId { get; set; } = null!;
 
+    public virtual ICollection<Mdispute> MdisputeBuyers { get; set; } = new List<Mdispute>();
+
+    public virtual ICollection<MdisputeEvidence> MdisputeEvidences { get; set; } = new List<MdisputeEvidence>();
+
+    public virtual ICollection<Mdispute> MdisputeResolvedByNavigations { get; set; } = new List<Mdispute>();
+
+    public virtual ICollection<Mdispute> MdisputeSellers { get; set; } = new List<Mdispute>();
+
     public virtual ICollection<Minspectionreport> Minspectionreports { get; set; } = new List<Minspectionreport>();
 
     public virtual ICollection<Mlisting> MlistingApprovedByNavigations { get; set; } = new List<Mlisting>();
