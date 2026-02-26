@@ -13,5 +13,8 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
         Task<Morder?> GetOrderByIdAsync(string orderId);
         Morder UpdateOrderStatus(string orderId, OrderStatus newStatus);
         Morder UpdateOrderPaymentStatus(string orderId, OrderPaymentStatus newStatus);
+        Task<List<GetAllOrderDto>> GetAllOrderDtos();
+        Task<GetAllOrderDto?> GetOrderById(string orderId);
+        Task<GetAllOrderDto?> GetOrderByUserId(string userId);
     }
 }

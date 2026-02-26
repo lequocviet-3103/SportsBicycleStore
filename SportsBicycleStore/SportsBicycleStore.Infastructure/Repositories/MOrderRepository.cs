@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Repositories;
 using SportsBicycleStore.Domain.Entities;
@@ -147,6 +148,158 @@ namespace SportsBicycleStore.Infastructure.Repositories
             order.PaymentStatus = (int)newStatus;
             order.UpdatedAt = DateTime.Now;
             _context.SaveChanges();
+            return order;
+        }
+
+        public async Task<List<GetAllOrderDto>> GetAllOrderDtos()
+        {
+            var order = await _context.Morders.AsNoTracking()
+                .Join(_context.Morderdetails.AsNoTracking(),
+                o => o.OrderId,
+                od => od.OrderId,
+                (o, od) => new {o, od})
+                .Join(_context.Mproducts.AsNoTracking(),
+                x => x.od.ProductId,
+                p => p.ProductId,
+                (x, p) => new {x.o, x.od, p})
+                .Join(_context.Musers.AsNoTracking(),
+                x => x.o.BuyerId,
+                u => u.UserId,
+                (x, u) => new {x.o, x.od, x.p, u})
+                .Select( x => new GetAllOrderDto
+                {
+                    OrderId = x.o.OrderId,
+                    BuyerId = x.o.BuyerId,
+                    SellerId = x.o.SellerId,
+                    TotalAmount = x.o.TotalAmount,
+                    ShippingAddress = x.o.ShippingAddress,
+                    ReceiverName = x.o.ReceiverName,
+                    ReceiverPhone = x.o.ReceiverPhone,
+                    DeliveryMethod = x.o.DeliveryMethod,
+                    OrderStatus = x.o.OrderStatus,
+                    PaymentStatus = x.o.PaymentStatus,
+                    Note = x.o.Note,
+                    CreatedAt = x.o.CreatedAt,
+
+                    // ===== ORDER DETAIL =====
+                    OrderDetailId = x.od.OrderDetailId,
+                    Quantity = x.od.Quantity,
+                    UnitPrice = x.od.UnitPrice,
+                    Subtotal = x.od.Subtotal,
+
+                    // ===== PRODUCT =====
+                    ProductId = x.p.ProductId,
+                    ProductName = x.p.ProductName,
+                    Price = x.p.Price,
+
+                    // ===== USER (BUYER) =====
+                    UserId = x.u.UserId,
+                    UserName = x.u.UserName,
+                    FullName = x.u.FullName
+                }
+            ).ToListAsync();
+            return order;
+        }
+
+        public async Task<GetAllOrderDto?> GetOrderById(string orderId)
+        {
+            var order = await _context.Morders.AsNoTracking()
+                .Join(_context.Morderdetails.AsNoTracking(),
+                o => o.OrderId,
+                od => od.OrderId,
+                (o, od) => new { o, od })
+                .Join(_context.Mproducts.AsNoTracking(),
+                x => x.od.ProductId,
+                p => p.ProductId,
+                (x, p) => new { x.o, x.od, p })
+                .Join(_context.Musers.AsNoTracking(),
+                x => x.o.BuyerId,
+                u => u.UserId,
+                (x, u) => new { x.o, x.od, x.p, u })
+                .Where(x => x.o.OrderId == orderId)
+                .Select(x => new GetAllOrderDto
+                {
+                    OrderId = x.o.OrderId,
+                    BuyerId = x.o.BuyerId,
+                    SellerId = x.o.SellerId,
+                    TotalAmount = x.o.TotalAmount,
+                    ShippingAddress = x.o.ShippingAddress,
+                    ReceiverName = x.o.ReceiverName,
+                    ReceiverPhone = x.o.ReceiverPhone,
+                    DeliveryMethod = x.o.DeliveryMethod,
+                    OrderStatus = x.o.OrderStatus,
+                    PaymentStatus = x.o.PaymentStatus,
+                    Note = x.o.Note,
+                    CreatedAt = x.o.CreatedAt,
+
+                    // ===== ORDER DETAIL =====
+                    OrderDetailId = x.od.OrderDetailId,
+                    Quantity = x.od.Quantity,
+                    UnitPrice = x.od.UnitPrice,
+                    Subtotal = x.od.Subtotal,
+
+                    // ===== PRODUCT =====
+                    ProductId = x.p.ProductId,
+                    ProductName = x.p.ProductName,
+                    Price = x.p.Price,
+
+                    // ===== USER (BUYER) =====
+                    UserId = x.u.UserId,
+                    UserName = x.u.UserName,
+                    FullName = x.u.FullName
+                }
+            ).FirstOrDefaultAsync();
+            return order;
+        }
+
+        public async Task<GetAllOrderDto?> GetOrderByUserId(string userId)
+        {
+            var order = await _context.Morders.AsNoTracking()
+                .Join(_context.Morderdetails.AsNoTracking(),
+                o => o.OrderId,
+                od => od.OrderId,
+                (o, od) => new { o, od })
+                .Join(_context.Mproducts.AsNoTracking(),
+                x => x.od.ProductId,
+                p => p.ProductId,
+                (x, p) => new { x.o, x.od, p })
+                .Join(_context.Musers.AsNoTracking(),
+                x => x.o.BuyerId,
+                u => u.UserId,
+                (x, u) => new { x.o, x.od, x.p, u })
+                .Where(x => x.u.UserId == userId)
+                .Select(x => new GetAllOrderDto
+                {
+                    OrderId = x.o.OrderId,
+                    BuyerId = x.o.BuyerId,
+                    SellerId = x.o.SellerId,
+                    TotalAmount = x.o.TotalAmount,
+                    ShippingAddress = x.o.ShippingAddress,
+                    ReceiverName = x.o.ReceiverName,
+                    ReceiverPhone = x.o.ReceiverPhone,
+                    DeliveryMethod = x.o.DeliveryMethod,
+                    OrderStatus = x.o.OrderStatus,
+                    PaymentStatus = x.o.PaymentStatus,
+                    Note = x.o.Note,
+                    CreatedAt = x.o.CreatedAt,
+
+                    // ===== ORDER DETAIL =====
+                    OrderDetailId = x.od.OrderDetailId,
+                    Quantity = x.od.Quantity,
+                    UnitPrice = x.od.UnitPrice,
+                    Subtotal = x.od.Subtotal,
+
+                    // ===== PRODUCT =====
+                    ProductId = x.p.ProductId,
+                    ProductName = x.p.ProductName,
+                    Price = x.p.Price,
+
+                    // ===== USER (BUYER) =====
+                    UserId = x.u.UserId,
+                    UserName = x.u.UserName,
+                    FullName = x.u.FullName
+                }
+            ).FirstOrDefaultAsync();
             return order;
         }
     }

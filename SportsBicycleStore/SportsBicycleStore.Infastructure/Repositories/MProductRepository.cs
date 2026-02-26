@@ -48,6 +48,136 @@ namespace SportsBicycleStore.Infastructure.Repositories
             return bicycle;
         }
 
+        public async Task<List<GetAllProductDto>> GetAllProductDtos()
+        {
+            var products = await _context.Mproducts
+                .Include(p => p.Seller)
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Select(p => new GetAllProductDto
+                {
+                    ProductId = p.ProductId,
+                    SellerId = p.SellerId,
+                    SellerName = p.Seller.UserName,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.CategoryName,
+                    BrandId = p.BrandId,
+                    BrandName = p.Brand.BrandName,
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    Condition = p.Condition,
+                    FrameSize = p.FrameSize,
+                    FrameMaterial = p.FrameMaterial,
+                    WheelSize = p.WheelSize,
+                    BrakeType = p.BrakeType,
+                    GearSystem = p.GearSystem,
+                    Weight = p.Weight,
+                    Color = p.Color,
+                    YearOfManufacture = p.YearOfManufacture,
+                    UsageHistory = p.UsageHistory,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity,
+                    LocationCity = p.LocationCity,
+                    Status = (int)(ProductStatus)p.Status!,
+                    InspectionStatus = (int)(InspectionStatus)p.InspectionStatus!,
+                    ViewCount = p.ViewCount,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    PublishedAt = p.PublishedAt,
+                    SoldAt  = p.SoldAt
+                }).ToListAsync();
+
+            return products;
+        }
+
+        public Task<Mproduct?> GetMproductByIdAsync(string productId)
+        {
+            var product = _context.Mproducts.FirstOrDefaultAsync(p => p.ProductId == productId);
+            return product;
+        }
+
+        public async Task<GetAllProductDto?> GetProductById(string productId)
+        {
+            var product = await _context.Mproducts
+                .Include(p => p.Seller)
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Where(p => p.ProductId == productId)
+                .Select(p => new GetAllProductDto
+                {
+                    ProductId = p.ProductId,
+                    SellerId = p.SellerId,
+                    SellerName = p.Seller.UserName,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.CategoryName,
+                    BrandId = p.BrandId,
+                    BrandName = p.Brand.BrandName,
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    Condition = p.Condition,
+                    FrameSize = p.FrameSize,
+                    FrameMaterial = p.FrameMaterial,
+                    WheelSize = p.WheelSize,
+                    BrakeType = p.BrakeType,
+                    GearSystem = p.GearSystem,
+                    Weight = p.Weight,
+                    Color = p.Color,
+                    YearOfManufacture = p.YearOfManufacture,
+                    UsageHistory = p.UsageHistory,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity,
+                    LocationCity = p.LocationCity,
+                    Status = (int)(ProductStatus)p.Status!,
+                    InspectionStatus = (int)(InspectionStatus)p.InspectionStatus!,
+                    ViewCount = p.ViewCount,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    PublishedAt = p.PublishedAt
+                }).FirstOrDefaultAsync();
+            return product;
+        }
+
+        public async Task<GetAllProductDto?> GetProductBySellerId(string sellerId)
+        {
+            var seller = await _context.Mproducts
+                .Include(p => p.Seller)
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Where(p => p.SellerId == sellerId)
+                .Select(p => new GetAllProductDto
+                {
+                    ProductId = p.ProductId,
+                    SellerId = p.SellerId,
+                    SellerName = p.Seller.UserName,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.CategoryName,
+                    BrandId = p.BrandId,
+                    BrandName = p.Brand.BrandName,
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    Condition = p.Condition,
+                    FrameSize = p.FrameSize,
+                    FrameMaterial = p.FrameMaterial,
+                    WheelSize = p.WheelSize,
+                    BrakeType = p.BrakeType,
+                    GearSystem = p.GearSystem,
+                    Weight = p.Weight,
+                    Color = p.Color,
+                    YearOfManufacture = p.YearOfManufacture,
+                    UsageHistory = p.UsageHistory,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity,
+                    LocationCity = p.LocationCity,
+                    Status = (int)(ProductStatus)p.Status!,
+                    InspectionStatus = (int)(InspectionStatus)p.InspectionStatus!,
+                    ViewCount = p.ViewCount,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt,
+                    PublishedAt = p.PublishedAt
+                }).FirstOrDefaultAsync();
+            return seller;
+        }
+
         public async Task<Mproduct?> UpdateBicycleAsync(string productId, UpdateProductDto dto)
         {
             var product = await _context.Mproducts.FirstOrDefaultAsync(p => p.ProductId == productId);
