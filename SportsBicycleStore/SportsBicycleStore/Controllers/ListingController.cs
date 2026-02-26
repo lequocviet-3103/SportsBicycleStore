@@ -49,12 +49,12 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
-            [Authorize(Roles = "1, 2, 3, 4")]
-            [HttpGet("get-all-listing")]
-            public async Task<IActionResult> GetAllListing()
-            {
-                var result = await _listingService.GetAllListings();
-                return Ok(result);
+        [Authorize(Roles = "1, 2, 3, 4")]
+        [HttpGet("get-all-listing")]
+        public async Task<IActionResult> GetAllListing()
+        {
+            var result = await _listingService.GetAllListings();
+            return Ok(result);
         }
     }
 }
