@@ -32,5 +32,11 @@ namespace SportsBicycleStore.Infastructure.Services
         {
             return await _unitOfWork.MlistingRepository.GetByIdAsync(id);
         }
+
+        public async Task<List<GetAllListing>> GetAllListings()
+        {
+            return await _unitOfWork.MlistingRepository.GetAllListings();
+        }
+
     }
 }

@@ -23,6 +23,35 @@ namespace SportsBicycleStore.Infastructure.Services
             return await _unitOfWork.MProductRepository.CreateBicycle(productDto);
         }
 
+        public async Task<List<GetAllProductDto>> GetAllProductDtos()
+        {
+            return await _unitOfWork.MProductRepository.GetAllProductDtos();
+        }
+
+        public async Task<Mproduct?> GetMproductByIdAsync(string productId)
+        {
+            return await _unitOfWork.MProductRepository.GetMproductByIdAsync(productId);
+        }
+
+        public async Task<GetAllProductDto?> GetProductById(string productId)
+        {
+            var product = await _unitOfWork.MProductRepository.GetMproductByIdAsync(productId);
+            if (product == null)
+            {
+                throw new UserFriendlyException(
+                    404,
+                    "PRODUCT_NOT_FOUND",
+                    "Product with the specified ID does not exist.");
+            }
+
+            return await _unitOfWork.MProductRepository.GetProductById(product.ProductId);
+        }
+
+        public Task<GetAllProductDto?> GetProductBySellerId(string sellerId)
+        {
+            return _unitOfWork.MProductRepository.GetProductBySellerId(sellerId);
+        }
+
         public async Task<Mproduct?> UpdateBicycleAsync(string productId, UpdateProductDto dto)
         {
             // Validate SellerId

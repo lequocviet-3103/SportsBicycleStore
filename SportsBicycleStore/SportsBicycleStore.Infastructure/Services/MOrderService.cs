@@ -21,9 +21,24 @@ namespace SportsBicycleStore.Infastructure.Services
             return await _unitOfWork.MOrderRepository.CreateOrder(orderDto);
         }
 
-        public Task<Morder?> GetOrderByIdAsync(string orderId)
+        public async Task<List<GetAllOrderDto>> GetAllOrderDtos()
         {
-            return _unitOfWork.MOrderRepository.GetOrderByIdAsync(orderId);
+            return await _unitOfWork.MOrderRepository.GetAllOrderDtos();
+        }
+
+        public async Task<GetAllOrderDto?> GetOrderById(string orderId)
+        {
+            return await _unitOfWork.MOrderRepository.GetOrderById(orderId);
+        }
+
+        public async Task<Morder?> GetOrderByIdAsync(string orderId)
+        {
+            return await _unitOfWork.MOrderRepository.GetOrderByIdAsync(orderId);
+        }
+
+        public async Task<GetAllOrderDto?> GetOrderByUserId(string userId)
+        {
+            return await _unitOfWork.MOrderRepository.GetOrderByUserId(userId);
         }
     }
 }
