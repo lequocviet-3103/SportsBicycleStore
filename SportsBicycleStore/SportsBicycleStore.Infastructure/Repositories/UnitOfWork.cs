@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SportsBicycleStore.Application.Interfaces.Repositories;
+﻿using SportsBicycleStore.Application.Interfaces.Repositories;
 using SportsBicycleStore.Infastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -32,8 +31,6 @@ namespace SportsBicycleStore.Infastructure.Repositories
             MlistingRepository = new MlistingRepository(_context);
             MOrderRepository = new MOrderRepository(_context);
             PaymentRepository = new PaymentRepository(_context);
-            MCategoryRepository = new MCategoryRepository(_context);
-            MBrandRepository = new MBrandRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()
@@ -45,8 +42,5 @@ namespace SportsBicycleStore.Infastructure.Repositories
         {
             _context.Dispose();
         }
-        public IMCategoryRepository MCategoryRepository { get; }
-
-        public IMBrandRepository MBrandRepository { get; }
     }
 }

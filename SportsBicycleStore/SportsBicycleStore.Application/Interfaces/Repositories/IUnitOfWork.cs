@@ -13,9 +13,6 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
             IListingRepository MlistingRepository { get; }
             IMOrderRepository MOrderRepository { get; }
             IPaymentRepository PaymentRepository { get; }
-            IMCategoryRepository MCategoryRepository { get; }
-            IMBrandRepository MBrandRepository { get; }
-
     }
 }
 

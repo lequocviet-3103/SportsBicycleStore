@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SportsBicycleStore.Application.DTO;
-using SportsBicycleStore.Application.Extension;
 using SportsBicycleStore.Application.Interfaces.Repositories;
-using SportsBicycleStore.Application.SearchFilter;
 using SportsBicycleStore.Domain.Entities;
 using SportsBicycleStore.Domain.Enum;
 using SportsBicycleStore.Infastructure.Data;
@@ -49,8 +47,6 @@ namespace SportsBicycleStore.Infastructure.Repositories
             await _context.SaveChangesAsync();
             return bicycle;
         }
-
-        
 
         public async Task<Mproduct?> UpdateBicycleAsync(string productId, UpdateProductDto dto)
         {
@@ -116,76 +112,6 @@ namespace SportsBicycleStore.Infastructure.Repositories
             await _context.SaveChangesAsync();
 
             return product;
-        }
-        
-        public async Task<PagedResult<Mproduct>> GetProductsAsync(ProductSearchFilter filter)
-        {
-            var query = _context.Mproducts
-                .Include(p => p.Category)
-                .Include(p => p.Brand)
-                //.Include(p => p.Seller)
-                .AsQueryable();
-
-            if (!string.IsNullOrEmpty(filter.ProductId))
-            {
-                query = query.Where(p => p.ProductId.Contains(filter.ProductId));
-            }
-
-            if (!string.IsNullOrEmpty(filter.ProductName))
-            {
-                query = query.Where(p => p.ProductName.Contains(filter.ProductName));
-            }
-
-            if (!string.IsNullOrEmpty(filter.SellerId))
-            {
-                query = query.Where(p => p.SellerId == filter.SellerId);
-            }
-
-            if (!string.IsNullOrEmpty(filter.CategoryId))
-            {
-                query = query.Where(p => p.CategoryId == filter.CategoryId);
-            }
-
-            if (!string.IsNullOrEmpty(filter.BrandId))
-            {
-                query = query.Where(p => p.BrandId == filter.BrandId);
-            }
-
-            if (filter.Status.HasValue)
-            {
-                query = query.Where(p => p.Status == filter.Status.Value);
-            }
-
-            if (filter.Condition.HasValue)
-            {
-                query = query.Where(p => p.Condition == filter.Condition.Value);
-            }
-
-            if (filter.MinPrice.HasValue)
-            {
-                query = query.Where(p => p.Price >= filter.MinPrice.Value);
-            }
-
-            if (filter.MaxPrice.HasValue)
-            {
-                query = query.Where(p => p.Price <= filter.MaxPrice.Value);
-            }
-
-            var totalCount = await query.CountAsync();
-
-            var items = await query
-                .OrderByDescending(p => p.CreatedAt)
-                .Skip((filter.PageNumber - 1) * filter.PageSize)
-                .Take(filter.PageSize)
-                .ToListAsync();
-
-            return new PagedResult<Mproduct>
-            {
-                Items = items,
-                TotalCount = totalCount,
-                PageNumber = filter.PageNumber,
-                PageSize = filter.PageSize
-            };
         }
     }
 }
