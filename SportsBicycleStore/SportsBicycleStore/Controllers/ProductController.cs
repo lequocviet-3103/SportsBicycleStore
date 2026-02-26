@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Interfaces.Services;
+using SportsBicycleStore.Application.SearchFilter;
+using SportsBicycleStore.Infastructure.Services;
 
 namespace SportsBicycleStore.Controllers
 {
@@ -38,5 +40,13 @@ namespace SportsBicycleStore.Controllers
 
             return Ok(updatedProduct);
         }
+
+        [HttpGet("get-product-by-search-filter")]
+        public async Task<IActionResult> GetProducts([FromQuery] ProductSearchFilter filter)
+        {
+            var result = await _mProductService.GetProductsAsync(filter);
+            return Ok(result);
+        }
+
     }
 }

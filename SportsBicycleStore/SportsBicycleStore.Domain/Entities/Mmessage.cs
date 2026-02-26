@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
@@ -18,4 +18,8 @@ public partial class Mmessage
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+
+    public virtual Muser Sender { get; set; } = null!;
+
+    public virtual Muser Receiver { get; set; } = null!;
 }

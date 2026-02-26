@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace SportsBicycleStore.Domain.Entities;
@@ -35,13 +35,13 @@ public partial class Mdispute
 
     public DateTime? ResolvedAt { get; set; }
 
+    public virtual Morder Order { get; set; } = null!;
+
     public virtual Muser Buyer { get; set; } = null!;
 
-    public virtual ICollection<MdisputeEvidence> MdisputeEvidences { get; set; } = new List<MdisputeEvidence>();
-
-    public virtual Morder Order { get; set; } = null!;
+    public virtual Muser Seller { get; set; } = null!;
 
     public virtual Muser? ResolvedByNavigation { get; set; }
 
-    public virtual Muser Seller { get; set; } = null!;
+    public virtual ICollection<MdisputeEvidence> MdisputeEvidences { get; set; } = new List<MdisputeEvidence>();
 }

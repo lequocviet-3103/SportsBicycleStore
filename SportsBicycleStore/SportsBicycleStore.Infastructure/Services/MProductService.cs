@@ -1,7 +1,9 @@
 ﻿using SportsBicycleStore.Application.DTO;
 using SportsBicycleStore.Application.Exceptions;
+using SportsBicycleStore.Application.Extension;
 using SportsBicycleStore.Application.Interfaces.Repositories;
 using SportsBicycleStore.Application.Interfaces.Services;
+using SportsBicycleStore.Application.SearchFilter;
 using SportsBicycleStore.Domain.Entities;
 using SportsBicycleStore.Domain.Enum;
 using System;
@@ -23,6 +25,8 @@ namespace SportsBicycleStore.Infastructure.Services
             return await _unitOfWork.MProductRepository.CreateBicycle(productDto);
         }
 
+        
+
         public async Task<Mproduct?> UpdateBicycleAsync(string productId, UpdateProductDto dto)
         {
             // Validate SellerId
@@ -36,31 +40,6 @@ namespace SportsBicycleStore.Infastructure.Services
                     "SELLER_NOT_FOUND",
                     "Seller ID does not exist.");
             }
-
-            /*// Validate CategoryId
-            var category = await _unitOfWork.MCategoryRepository
-                .GetByIdAsync(dto.CategoryId);
-
-            if (category == null)
-            {
-                throw new UserFriendlyException(
-                    400,
-                    "CATEGORY_NOT_FOUND",
-                    "Category ID does not exist.");
-            }
-
-            // Validate BrandId
-            var brand = await _unitOfWork.MBrandRepository
-                .GetByIdAsync(dto.BrandId);
-
-            if (brand == null)
-            {
-                throw new UserFriendlyException(
-                    400,
-                    "BRAND_NOT_FOUND",
-                    "Brand ID does not exist.");
-            }
-            */
 
             if (dto.Condition.HasValue &&
         !Enum.IsDefined(typeof(ProductCondition), dto.Condition.Value))
@@ -102,6 +81,10 @@ namespace SportsBicycleStore.Infastructure.Services
                 );
             }
             return await _unitOfWork.MProductRepository.UpdateBicycleAsync(productId, dto);
+        }
+        public async Task<PagedResult<Mproduct>> GetProductsAsync(ProductSearchFilter filter)
+        {
+            return await _unitOfWork.MProductRepository.GetProductsAsync(filter);
         }
     }
 }

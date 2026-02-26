@@ -25,6 +25,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(users);
         }
 
+        [HttpPut("{userId}/adminUpdateUser")]
         [Authorize(Roles = "1,2, 3")]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto dto)

@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using SportsBicycleStore.Domain.Entities;
 using System;
-using System.Collections.Generic;
 
 namespace SportsBicycleStore.Infastructure.Data;
 
@@ -332,9 +332,7 @@ public partial class AppDbContext : DbContext
             entity.ToTable("mmessage");
 
             entity.HasIndex(e => e.CreatedAt, "idx_message_created_at");
-
             entity.HasIndex(e => e.ReceiverId, "idx_message_receiver");
-
             entity.HasIndex(e => e.SenderId, "idx_message_sender");
 
             entity.Property(e => e.MessageId)
@@ -358,6 +356,16 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.MmessageSenders)
+                .HasForeignKey(d => d.SenderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_message_sender");
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.MmessageReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_message_receiver");
         });
 
         modelBuilder.Entity<Morder>(entity =>
