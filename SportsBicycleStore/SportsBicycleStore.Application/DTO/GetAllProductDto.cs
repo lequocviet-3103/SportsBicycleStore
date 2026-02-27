@@ -18,7 +18,7 @@ namespace SportsBicycleStore.Application.DTO
         public string? BrandName { get; set; }
 
         public string ProductName { get; set; } = null!;
-
+        public string? FeaturedImage { get; set; }
         public string? Description { get; set; }
 
         public int? Condition { get; set; }

@@ -64,6 +64,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     BrandId = p.BrandId,
                     BrandName = p.Brand.BrandName,
                     ProductName = p.ProductName,
+                    FeaturedImage = p.Mlistings
+                        .OrderByDescending(l => l.CreatedAt)
+                        .Select(l => l.FeaturedImage)
+                        .FirstOrDefault(),
                     Description = p.Description,
                     Condition = p.Condition,
                     FrameSize = p.FrameSize,
@@ -113,6 +117,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     BrandId = p.BrandId,
                     BrandName = p.Brand.BrandName,
                     ProductName = p.ProductName,
+                    FeaturedImage = p.Mlistings
+                        .OrderByDescending(l => l.CreatedAt)
+                        .Select(l => l.FeaturedImage)
+                        .FirstOrDefault(),
                     Description = p.Description,
                     Condition = p.Condition,
                     FrameSize = p.FrameSize,
@@ -154,6 +162,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     BrandId = p.BrandId,
                     BrandName = p.Brand.BrandName,
                     ProductName = p.ProductName,
+                    FeaturedImage = p.Mlistings
+                        .OrderByDescending(l => l.CreatedAt)
+                        .Select(l => l.FeaturedImage)
+                        .FirstOrDefault(),
                     Description = p.Description,
                     Condition = p.Condition,
                     FrameSize = p.FrameSize,

@@ -104,7 +104,7 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger";
     });
 }
-
+app.UseStaticFiles();
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
