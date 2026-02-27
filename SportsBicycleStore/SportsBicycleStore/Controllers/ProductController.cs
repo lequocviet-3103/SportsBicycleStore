@@ -16,7 +16,7 @@ namespace SportsBicycleStore.Controllers
             _mProductService = mProductService;
         }
 
-        [Authorize("1,2")]
+        [Authorize(Roles = "1,2")]
         [HttpPost("create-bicycle")]
         public async Task<IActionResult> CreateBicycle([FromBody] ProductDto productDto)
         {
@@ -24,7 +24,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
-        [Authorize("1, 2")]
+        [Authorize(Roles = "1, 2")]
         [HttpPut("{productId}/UpdateProduct")]
         public async Task<IActionResult> UpdateProduct(string productId, [FromBody] UpdateProductDto dto)
         {
@@ -38,7 +38,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(updatedProduct);
         }
 
-        [Authorize("1, 2, 3, 4")]
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("get-all-product")]
         public async Task<IActionResult> GetAllProduct()
         {
@@ -46,7 +46,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
-        [Authorize("1, 2, 3")]
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("get-product-detail-by-productId/{productId}")]
         public async Task<IActionResult> GetProductById(string productId)
         {
@@ -58,7 +58,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(result);
         }
 
-        [Authorize("1, 2")]
+        [Authorize(Roles = "1, 2")]
         [HttpGet("get-product-by-seller/{sellerId}")]
         public async Task<IActionResult> GetProductBySellerId(string sellerId)
         {
@@ -69,7 +69,7 @@ namespace SportsBicycleStore.Controllers
             }
             return Ok(result);
         }
-        [Authorize("1, 2, 3, 4")]
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("get-product-by-product-id")]
         public async Task<IActionResult> GetProductByProductId(string productId)
         {
