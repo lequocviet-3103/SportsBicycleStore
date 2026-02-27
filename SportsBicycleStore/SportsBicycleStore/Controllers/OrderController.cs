@@ -16,7 +16,7 @@ namespace SportsBicycleStore.Controllers
             _orderService = orderService;
         }
 
-        [Authorize("1, 2, 3")]
+        [Authorize(Roles = "1, 2, 3")]
         [HttpPost]
         public async Task<IActionResult> CreateOrder(OrderDto orderDto)
         {
@@ -24,7 +24,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(order);
         }
 
-        [Authorize("1, 2")]
+        [Authorize(Roles = "1, 2")]
         [HttpGet("get-all-order")]
         public async Task<IActionResult> GetAllOrders()
         {
@@ -32,7 +32,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(orders);
         }
 
-        [Authorize("1, 2, 3")]
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("{orderId}")]
         public async Task<IActionResult> GetOrderById(string orderId)
         {
@@ -44,7 +44,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(order);
         }
 
-         [Authorize("1, 2")]
+         [Authorize(Roles = "1, 2")]
          [HttpGet("get-order-by-user/{userId}")]
          public async Task<IActionResult> GetOrdersByUserId(string userId)
          {
@@ -52,7 +52,7 @@ namespace SportsBicycleStore.Controllers
              return Ok(orders);
         }
 
-        [Authorize("1, 2, 3")]
+        [Authorize(Roles = "1, 2, 3")]
         [HttpPut("get-order-by-order-id{orderId}")]
         public async Task<IActionResult> GetOrderByOrderId(string orderId) 
         {

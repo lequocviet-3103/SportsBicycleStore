@@ -17,7 +17,7 @@ namespace SportsBicycleStore.Controllers
             _userService = userService;
         }
 
-        [Authorize("1, 2, 3, 4")]
+        [Authorize(Roles = "1, 2, 3, 4")]
         [HttpGet("get-user-by-search-filter")]
         public async Task<IActionResult> GetUsers([FromQuery] UserSearchFilter filter)
         {
@@ -25,7 +25,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(users);
         }
 
-        [Authorize("1, 2")]
+        [Authorize(Roles = "1, 2")]
         [HttpPut("{userId}")]
         public async Task<IActionResult> UpdateUser(string userId, [FromBody] UpdateUserDto dto)
         {
@@ -39,7 +39,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(updatedUser);
         }
 
-        [Authorize("1, 2")]
+        [Authorize(Roles = "1, 2")]
         [HttpPatch("delete-user/{userId}")]
         public async Task<IActionResult> SoftDeleteUser(string userId, [FromBody] SoftDeleteUserDto dto)
         {
