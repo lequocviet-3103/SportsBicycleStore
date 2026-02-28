@@ -12,6 +12,6 @@ namespace SportsBicycleStore.Application.Interfaces.Services
         Task<Morder?> GetOrderByIdAsync(string orderId);
         Task<List<GetAllOrderDto>> GetAllOrderDtos();
         Task<GetAllOrderDto?> GetOrderById(string orderId);
-        Task<GetAllOrderDto?> GetOrderByUserId(string userId);
+        Task<List<GetAllOrderDto>> GetOrderByUserId(string userId);
     }
 }

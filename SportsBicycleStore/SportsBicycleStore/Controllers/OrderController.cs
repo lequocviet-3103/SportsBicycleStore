@@ -49,7 +49,11 @@ namespace SportsBicycleStore.Controllers
          public async Task<IActionResult> GetOrdersByUserId(string userId)
          {
              var orders = await _orderService.GetOrderByUserId(userId);
-             return Ok(orders);
+                if (orders == null || orders.Count == 0)
+                {
+                    return NotFound("No orders found for this user.");
+            }
+            return Ok(orders);
         }
 
         [Authorize(Roles = "1, 2, 3")]

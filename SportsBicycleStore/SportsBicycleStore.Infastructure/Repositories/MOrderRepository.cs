@@ -166,6 +166,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 x => x.o.BuyerId,
                 u => u.UserId,
                 (x, u) => new {x.o, x.od, x.p, u})
+                .Join(_context.Mlistings.AsNoTracking(),
+                x => x.p.ProductId,
+                l => l.ProductId,
+                (x, l) => new { x.o, x.od, x.p, x.u, l })
                 .Select( x => new GetAllOrderDto
                 {
                     OrderId = x.o.OrderId,
@@ -191,6 +195,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     ProductId = x.p.ProductId,
                     ProductName = x.p.ProductName,
                     Price = x.p.Price,
+                    FeaturedImage = x.l.FeaturedImage,
 
                     // ===== USER (BUYER) =====
                     UserId = x.u.UserId,
@@ -216,6 +221,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 x => x.o.BuyerId,
                 u => u.UserId,
                 (x, u) => new { x.o, x.od, x.p, u })
+                .Join(_context.Mlistings.AsNoTracking(),
+                x => x.p.ProductId,
+                l => l.ProductId,
+                (x, l) => new { x.o, x.od, x.p, x.u, l })
                 .Where(x => x.o.OrderId == orderId)
                 .Select(x => new GetAllOrderDto
                 {
@@ -242,6 +251,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     ProductId = x.p.ProductId,
                     ProductName = x.p.ProductName,
                     Price = x.p.Price,
+                    FeaturedImage = x.l.FeaturedImage,
 
                     // ===== USER (BUYER) =====
                     UserId = x.u.UserId,
@@ -252,7 +262,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
             return order;
         }
 
-        public async Task<GetAllOrderDto?> GetOrderByUserId(string userId)
+        public async Task<List<GetAllOrderDto>> GetOrderByUserId(string userId)
         {
             var order = await _context.Morders.AsNoTracking()
                 .Join(_context.Morderdetails.AsNoTracking(),
@@ -267,6 +277,10 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 x => x.o.BuyerId,
                 u => u.UserId,
                 (x, u) => new { x.o, x.od, x.p, u })
+                .Join(_context.Mlistings.AsNoTracking(),
+                x => x.p.ProductId,
+                l => l.ProductId,
+                (x, l) => new { x.o, x.od, x.p, x.u, l })
                 .Where(x => x.u.UserId == userId)
                 .Select(x => new GetAllOrderDto
                 {
@@ -293,13 +307,14 @@ namespace SportsBicycleStore.Infastructure.Repositories
                     ProductId = x.p.ProductId,
                     ProductName = x.p.ProductName,
                     Price = x.p.Price,
+                    FeaturedImage = x.l.FeaturedImage,
 
                     // ===== USER (BUYER) =====
                     UserId = x.u.UserId,
                     UserName = x.u.UserName,
                     FullName = x.u.FullName
                 }
-            ).FirstOrDefaultAsync();
+            ).ToListAsync();
             return order;
         }
     }

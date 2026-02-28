@@ -43,6 +43,6 @@ namespace SportsBicycleStore.Application.DTO
 
         public string UserName { get; set; } = null!;
         public string? FullName { get; set; }
-
+        public string? FeaturedImage { get; set; }
     }
 }
