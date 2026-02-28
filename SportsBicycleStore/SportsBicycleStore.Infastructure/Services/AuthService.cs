@@ -38,7 +38,10 @@ namespace SportsBicycleStore.Infastructure.Services
             return new AuthResponseDto
             {
                 Token = token,
+                UserId = user.UserId,
+                UserName = user.UserName,
                 Email = user.Email,
+                FullName = user.FullName,
                 Role = user.RoleId
             };
 

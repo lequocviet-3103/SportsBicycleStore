@@ -4,6 +4,8 @@ using SportsBicycleStore.Application.Interfaces.Services;
 
 namespace SportsBicycleStore.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
