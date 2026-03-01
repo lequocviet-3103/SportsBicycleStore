@@ -66,31 +66,6 @@ namespace SportsBicycleStore.Infastructure.Services
                     "Seller ID does not exist.");
             }
 
-            /*// Validate CategoryId
-            var category = await _unitOfWork.MCategoryRepository
-                .GetByIdAsync(dto.CategoryId);
-
-            if (category == null)
-            {
-                throw new UserFriendlyException(
-                    400,
-                    "CATEGORY_NOT_FOUND",
-                    "Category ID does not exist.");
-            }
-
-            // Validate BrandId
-            var brand = await _unitOfWork.MBrandRepository
-                .GetByIdAsync(dto.BrandId);
-
-            if (brand == null)
-            {
-                throw new UserFriendlyException(
-                    400,
-                    "BRAND_NOT_FOUND",
-                    "Brand ID does not exist.");
-            }
-            */
-
             if (dto.Condition.HasValue &&
         !Enum.IsDefined(typeof(ProductCondition), dto.Condition.Value))
             {
