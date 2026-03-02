@@ -44,7 +44,7 @@ namespace SportsBicycleStore.Controllers
             return Ok(order);
         }
 
-         [Authorize(Roles = "1, 2")]
+         [Authorize(Roles = "1, 2, 3")]
          [HttpGet("get-order-by-user/{userId}")]
          public async Task<IActionResult> GetOrdersByUserId(string userId)
          {

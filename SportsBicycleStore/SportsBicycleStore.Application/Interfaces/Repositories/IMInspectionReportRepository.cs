@@ -12,5 +12,7 @@ namespace SportsBicycleStore.Application.Interfaces.Repositories
         public Task<Minspectionreport?> GetInpectionReportByIdAsync(string reportId);
         public Task<bool> UpdateInspectionReport(Minspectionreport minspectionreport);
         public Task<List<Minspectionreport>> GetAllInspectionReportsAsync();
+        public Task<List<GetAllInspectorReport>> GetAllInspectionReportProductName();
+        public Task<GetAllInspectorReport?> GetInpectionReportByReportId(string reportId);
     }
 }

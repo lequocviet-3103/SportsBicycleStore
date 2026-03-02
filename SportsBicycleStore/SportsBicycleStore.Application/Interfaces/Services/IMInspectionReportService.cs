@@ -11,6 +11,8 @@ namespace SportsBicycleStore.Application.Interfaces.Services
         public Task<Minspectionreport> CreateInspectionReport(InspectionReportDto inspectionReportDto);
         public Task<bool> UpdateInspectionReport(UpdateInspectionReportDto updateInspectionReportDto, string reportId);
         public Task<List<Minspectionreport>> GetAllInspectionReportsAsync();
+        public Task<List<GetAllInspectorReport>> GetAllInspectionReportProductName();
+        public Task<GetAllInspectorReport?> GetInpectionReportByReportId(string reportId);
 
     }
 }

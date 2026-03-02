@@ -21,9 +21,19 @@ namespace SportsBicycleStore.Infastructure.Services
             return await _unitOfWork.MInspectionReportRepository.CreateInspectionReport(inspectionReportDto);
         }
 
+        public async Task<List<GetAllInspectorReport>> GetAllInspectionReportProductName()
+        {
+            return await _unitOfWork.MInspectionReportRepository.GetAllInspectionReportProductName();
+        }
+
         public async Task<List<Minspectionreport>> GetAllInspectionReportsAsync()
         {
             return await _unitOfWork.MInspectionReportRepository.GetAllInspectionReportsAsync();
+        }
+
+        public async Task<GetAllInspectorReport?> GetInpectionReportByReportId(string reportId)
+        {
+            return await _unitOfWork.MInspectionReportRepository.GetInpectionReportByReportId(reportId);
         }
 
         public async Task<bool> UpdateInspectionReport(UpdateInspectionReportDto updateInspectionReportDto, string reportId)
