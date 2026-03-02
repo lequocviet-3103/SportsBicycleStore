@@ -45,5 +45,26 @@ namespace SportsBicycleStore.Controllers
             var reports = await _inspectionReportService.GetAllInspectionReportsAsync();
             return Ok(reports);
         }
+
+        [Authorize(Roles = "1, 2, 4")]
+        [HttpGet("get-all-inspector-report-product-name")]
+        public async Task<IActionResult> GetAllInspectionReportProductName()
+        {
+            var reports = await _inspectionReportService.GetAllInspectionReportProductName();
+            return Ok(reports);
+        }
+
+        [Authorize(Roles = "1, 2, 4")]
+        [HttpGet("get-all-inspector-report-by-Id/{reportId}")]
+        public async Task<IActionResult> GetInpectionReportByReportId(string reportId)
+        {
+            var report = await _inspectionReportService.GetInpectionReportByReportId(reportId);
+            if (report == null)
+            {
+                return NotFound("Inspection report not found.");
+            }
+            return Ok(report);
+
+        }
     }
 }

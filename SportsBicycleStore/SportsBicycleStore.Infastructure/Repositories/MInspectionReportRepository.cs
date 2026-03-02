@@ -34,6 +34,38 @@ namespace SportsBicycleStore.Infastructure.Repositories
             return inspectionReport;
         }
 
+        public async Task<List<GetAllInspectorReport>> GetAllInspectionReportProductName()
+        {
+            var inspectorReport = await _context.Minspectionreports.AsNoTracking()
+                .Join(_context.Mproducts.AsNoTracking(),
+                    report => report.ProductId,
+                    product => product.ProductId,
+                    (report, product) => new GetAllInspectorReport
+                    {
+                        ReportId = report.ReportId,
+                        ProductId = report.ProductId,
+                        ProductName = product.ProductName,
+                        InspectorId = report.InspectorId,
+                        InspectionDate = report.InspectionDate,
+                        OverallRating = report.OverallRating,
+                        FrameCondition = report.FrameCondition,
+                        FrameNotes = report.FrameNotes,
+                        BrakeCondition = report.BrakeCondition,
+                        BrakeNotes = report.BrakeNotes,
+                        DrivetrainCondition = report.DrivetrainCondition,
+                        DrivetrainNotes = report.DrivetrainNotes,
+                        WheelCondition = report.WheelCondition,
+                        WheelNotes = report.WheelNotes,
+                        ImagesUrl = report.ImagesUrl,
+                        Status = report.Status,
+                        CreatedAt = report.CreatedAt,
+                        UpdatedAt = report.UpdatedAt,
+                        CompletedAt = report.CompletedAt
+                    })
+                .ToListAsync();
+            return inspectorReport;
+        }
+
         public async Task<List<Minspectionreport>> GetAllInspectionReportsAsync()
         {
             return await _context.Minspectionreports.ToListAsync();
@@ -43,6 +75,38 @@ namespace SportsBicycleStore.Infastructure.Repositories
         {
             var report =  await _context.Minspectionreports.FirstOrDefaultAsync(r => r.ReportId == reportId);
             return report;
+        }
+
+        public async Task<GetAllInspectorReport?> GetInpectionReportByReportId(string reportId)
+        {
+            var inspectorReport = await _context.Minspectionreports.AsNoTracking()
+                .Join(_context.Mproducts.AsNoTracking(),
+                    report => report.ProductId,
+                    product => product.ProductId,
+                    (report, product) => new GetAllInspectorReport
+                    {
+                        ReportId = report.ReportId,
+                        ProductId = report.ProductId,
+                        ProductName = product.ProductName,
+                        InspectorId = report.InspectorId,
+                        InspectionDate = report.InspectionDate,
+                        OverallRating = report.OverallRating,
+                        FrameCondition = report.FrameCondition,
+                        FrameNotes = report.FrameNotes,
+                        BrakeCondition = report.BrakeCondition,
+                        BrakeNotes = report.BrakeNotes,
+                        DrivetrainCondition = report.DrivetrainCondition,
+                        DrivetrainNotes = report.DrivetrainNotes,
+                        WheelCondition = report.WheelCondition,
+                        WheelNotes = report.WheelNotes,
+                        ImagesUrl = report.ImagesUrl,
+                        Status = report.Status,
+                        CreatedAt = report.CreatedAt,
+                        UpdatedAt = report.UpdatedAt,
+                        CompletedAt = report.CompletedAt
+                    }).Where(r => r.ReportId == reportId)
+                .FirstOrDefaultAsync();
+            return inspectorReport;
         }
 
         public async Task<bool> UpdateInspectionReport(Minspectionreport minspectionreport)
