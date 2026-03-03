@@ -7,5 +7,6 @@ namespace SportsBicycleStore.Application.DTO
     public class ApproveListingDto
     {
         public string? ApprovedBy { get; set; }
+        public int? Status { get; set; }
     }
 }

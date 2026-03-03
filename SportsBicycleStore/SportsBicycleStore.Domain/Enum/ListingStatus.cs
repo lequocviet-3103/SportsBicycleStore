@@ -6,8 +6,8 @@ namespace SportsBicycleStore.Domain.Enum
 {
     public enum ListingStatus
     {
-        Pending = 1,
-        Active = 2,
+       Active  = 1,
+        Pending = 2,
         Rejected = 3,
         Deleted = 4,
     }
