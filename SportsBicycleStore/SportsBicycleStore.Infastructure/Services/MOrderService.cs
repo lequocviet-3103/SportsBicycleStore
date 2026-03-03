@@ -36,6 +36,16 @@ namespace SportsBicycleStore.Infastructure.Services
             return await _unitOfWork.MOrderRepository.GetOrderByIdAsync(orderId);
         }
 
+        public async Task<List<GetAllOrderDto>> GetOrderBySellerId(string sellerId)
+        {
+            var user = await _unitOfWork.UserRepository.GetByUserIdAsync(sellerId);
+            if (user == null)
+            {
+                throw new Exception("Seller not found");
+            }
+            return await _unitOfWork.MOrderRepository.GetOrderBySellerId(sellerId);
+        }
+
         public async Task<List<GetAllOrderDto>> GetOrderByUserId(string userId)
         {
             var user = await _unitOfWork.UserRepository.GetByUserIdAsync(userId);

@@ -317,5 +317,61 @@ namespace SportsBicycleStore.Infastructure.Repositories
             ).ToListAsync();
             return order;
         }
+
+        public async Task<List<GetAllOrderDto>> GetOrderBySellerId(string sellerId)
+        {
+            var order = await _context.Morders.AsNoTracking()
+                .Join(_context.Morderdetails.AsNoTracking(),
+                o => o.OrderId,
+                od => od.OrderId,
+                (o, od) => new { o, od })
+                .Join(_context.Mproducts.AsNoTracking(),
+                x => x.od.ProductId,
+                p => p.ProductId,
+                (x, p) => new { x.o, x.od, p })
+                .Join(_context.Musers.AsNoTracking(),
+                x => x.o.SellerId,
+                u => u.UserId,
+                (x, u) => new { x.o, x.od, x.p, u })
+                .Join(_context.Mlistings.AsNoTracking(),
+                x => x.p.ProductId,
+                l => l.ProductId,
+                (x, l) => new { x.o, x.od, x.p, x.u, l })
+                .Where(x => x.u.UserId == sellerId)
+                .Select(x => new GetAllOrderDto
+                {
+                    OrderId = x.o.OrderId,
+                    BuyerId = x.o.BuyerId,
+                    SellerId = x.o.SellerId,
+                    TotalAmount = x.o.TotalAmount,
+                    ShippingAddress = x.o.ShippingAddress,
+                    ReceiverName = x.o.ReceiverName,
+                    ReceiverPhone = x.o.ReceiverPhone,
+                    DeliveryMethod = x.o.DeliveryMethod,
+                    OrderStatus = x.o.OrderStatus,
+                    PaymentStatus = x.o.PaymentStatus,
+                    Note = x.o.Note,
+                    CreatedAt = x.o.CreatedAt,
+
+                    // ===== ORDER DETAIL =====
+                    OrderDetailId = x.od.OrderDetailId,
+                    Quantity = x.od.Quantity,
+                    UnitPrice = x.od.UnitPrice,
+                    Subtotal = x.od.Subtotal,
+
+                    // ===== PRODUCT =====
+                    ProductId = x.p.ProductId,
+                    ProductName = x.p.ProductName,
+                    Price = x.p.Price,
+                    FeaturedImage = x.l.FeaturedImage,
+
+                    // ===== USER (seller) =====
+                    UserId = x.u.UserId,
+                    UserName = x.u.UserName,
+                    FullName = x.u.FullName
+                }
+            ).ToListAsync();
+            return order;
+        }
     }
 }

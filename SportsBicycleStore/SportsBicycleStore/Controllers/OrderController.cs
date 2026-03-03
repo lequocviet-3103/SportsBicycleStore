@@ -56,8 +56,20 @@ namespace SportsBicycleStore.Controllers
             return Ok(orders);
         }
 
+         [Authorize(Roles = "1, 2, 3")]
+         [HttpGet("get-order-by-seller/{sellerId}")]
+         public async Task<IActionResult> GetOrdersBySellerId(string sellerId)
+         {
+             var orders = await _orderService.GetOrderBySellerId(sellerId);
+                if (orders == null || orders.Count == 0)
+                {
+                    return NotFound("No orders found for this user.");
+            }
+            return Ok(orders);
+        }
+
         [Authorize(Roles = "1, 2, 3")]
-        [HttpPut("get-order-by-order-id{orderId}")]
+        [HttpGet("get-order-by-order-id{orderId}")]
         public async Task<IActionResult> GetOrderByOrderId(string orderId) 
         {
             var order = await _orderService.GetOrderByIdAsync(orderId);
