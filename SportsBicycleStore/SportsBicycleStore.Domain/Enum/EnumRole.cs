@@ -8,6 +8,7 @@ namespace SportsBicycleStore.Domain.Enum
     {
         Admin = 1,
         Seller = 2,
-        Buyer = 3
+        Buyer = 3,
+        Inspector = 4
     }
 }

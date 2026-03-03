@@ -39,7 +39,7 @@ namespace SportsBicycleStore.Infastructure.Repositories
                 SellerId = listingDto.SellerId!,
                 Title = listingDto.Title!,
                 FeaturedImage = listingDto.FeaturedImage,
-                Status = 1,
+                Status = (int)ListingStatus.Pending,
                 CreatedAt = DateTime.Now
             };
             await _context.Mlistings.AddAsync(listing);
