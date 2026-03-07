@@ -29,8 +29,6 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Mlisting> Mlistings { get; set; }
 
-    public virtual DbSet<Mmessage> Mmessages { get; set; }
-
     public virtual DbSet<Morder> Morders { get; set; }
 
     public virtual DbSet<Morderdetail> Morderdetails { get; set; }
@@ -44,7 +42,6 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<Muser> Musers { get; set; }
 
     public virtual DbSet<Mwishlist> Mwishlists { get; set; }
-
     private string GetConnectionString()
     {
         IConfiguration configuration = new ConfigurationBuilder()
@@ -57,7 +54,6 @@ public partial class AppDbContext : DbContext
     {
         optionsBuilder.UseNpgsql(GetConnectionString());
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Mbrand>(entity =>
@@ -323,41 +319,6 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.SellerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_listing_seller");
-        });
-
-        modelBuilder.Entity<Mmessage>(entity =>
-        {
-            entity.HasKey(e => e.MessageId).HasName("mmessage_pkey");
-
-            entity.ToTable("mmessage");
-
-            entity.HasIndex(e => e.CreatedAt, "idx_message_created_at");
-
-            entity.HasIndex(e => e.ReceiverId, "idx_message_receiver");
-
-            entity.HasIndex(e => e.SenderId, "idx_message_sender");
-
-            entity.Property(e => e.MessageId)
-                .HasMaxLength(40)
-                .HasColumnName("message_id");
-            entity.Property(e => e.Content).HasColumnName("content");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_at");
-            entity.Property(e => e.IsRead)
-                .HasDefaultValue(false)
-                .HasColumnName("is_read");
-            entity.Property(e => e.ReceiverId)
-                .HasMaxLength(40)
-                .HasColumnName("receiver_id");
-            entity.Property(e => e.SenderId)
-                .HasMaxLength(40)
-                .HasColumnName("sender_id");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("updated_at");
         });
 
         modelBuilder.Entity<Morder>(entity =>
